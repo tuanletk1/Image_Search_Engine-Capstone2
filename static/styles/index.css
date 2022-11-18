@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url(../assets/fonts/OpenSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'OpenSans-Medium';
+  src: url(../assets/fonts/OpenSans-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url(../assets/fonts/OpenSans-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url(../assets/fonts/OpenSans-Medium.ttf);
+}

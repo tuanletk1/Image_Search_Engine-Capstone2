@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="main.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Image Search Engine</title>
+</head>
+
+<body>
+  <div class="wrapper w-[1500px] m-auto p-[25px] bg-[#F6FAFF] flex font-Primary-regular">
+    <!-- Container -->
+    <div class="container bg-white">
+
+      <!-- Header -->
+      <header class="border-b-4 border-[#F6F6F6]">
+
+        <!-- Navbar -->
+        <nav class="navbar flex justify-between items-center px-[50px]">
+
+          <!-- The logo of page -->
+          <h1 class="logo pt-4">
+            <a href="javascript:void(0)">
+              <img src="../src/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
+            </a>
+          </h1>
+          <!-- End the logo of page -->
+
+          <!-- The information of the user -->
+          <div class="infor-user flex gap-6 justify-center items-center">
+            <div class="avtar-user w-[60px] h-[60px] hover:scale-125 transition-all duration-500 ease-in-out">
+              <img src="../src/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
+            </div>
+            <div class="detail-infor-user flex flex-col h-full">
+              <span class="font-Primary-bold text-[#25396F] text-xl font-bold">Admin Name</span>
+              <span class="font-Primary-bold text-[#7C8DB5] text-lg font-semibold">Admin@gmail.com</span>
+            </div>
+          </div>
+          <!-- End the information of the user -->
+
+        </nav>
+        <!-- End the navbar -->
+
+      </header>
+      <!-- End the header -->
+
+      <!-- Page Content -->
+      <div class="content flex my-6">
+
+        <!-- Side menu -->
+        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+
+          <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <button class="p-[15px]">
+              <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+            </button>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Dashboard</span>
+          <!-- End the dashboard button -->
+
+          <!-- User management button -->
+          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <button class="p-[15px]">
+              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+            </button>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+          <!-- End the user management button -->
+
+          <!-- Moderator management button -->
+          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <button class="p-[15px]">
+              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+            </button>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+          <!-- End the moderator management button -->
+
+        </div>
+        <!-- End the side menu -->
+
+        <!-- Main content -->
+        <div class="main-content w-full mx-10 flex flex-col justify-center items-center">
+
+          <!-- Searchbar and group button section wrapper-->
+          <div class="w-full flex justify-between items-center">
+
+            <!-- Searchbar section -->
+            <div class="searchbar w-[65%] justify-center items-center border-4 border-[#F0F0F0] rounded-xl p-3">
+              <form class="flex items-center">
+                <!-- Search button -->
+                <button type="submit" class="mr-3">
+                  <i class="fa fa-search text-3xl"></i>
+                </button>
+                <!-- End search button -->
+
+                <!--  Input field -->
+                <label htmlFor="username" class="w-full">
+                  <input type=" text" placeholder="Search Files..." name="search" id="search"
+                    class="outline-none text-lg font-Primary-medium placeholder:text-[#7C8DB5] placeholder:text-lg">
+                </label>
+                <!-- End the input field -->
+
+              </form>
+            </div>
+            <!-- End the searchbar section -->
+
+            <div class="group-button flex gap-10">
+              <!-- Add new button -->
+              <button type="button" class="add-new-button w-[150px] h-[60px] font-Primary-bold font-medium text-lg flex justify-center
+              items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
+              hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+              transition-all duration-500 ease-in-out uppercase">
+                Add new
+              </button>
+              <!-- End add new button -->
+
+              <!-- Delete All button -->
+              <button type="button" class="add-new-button w-[150px] h-[60px] font-Primary-bold font-medium text-lg flex justify-center
+            items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
+            hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+            transition-all duration-500 ease-in-out uppercase">
+                Delete All
+              </button>
+              <!-- End Delete All button -->
+            </div>
+          </div>
+          <!-- End the searchbar and group button section wrapper -->
+
+          <!-- Display data section wrapper-->
+          <section class="display-data-section mt-10 mb-5 w-full drop-shadow-sm">
+
+            <!-- Table database -->
+            <div class="table-database">
+              <table class="w-full">
+
+                <!-- Table head -->
+                <thead class="w-full">
+                  <tr class="w-full flex justify-between items-center px-2">
+                    <th class="w-[50px]">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </th>
+                    <th class="w-[200px] flex justify-start">Moderator</th>
+                    <th class="w-[200px] flex justify-start">Phone</th>
+                    <th class="w-[300px] flex justify-start">Email</th>
+                    <th class="w-[100px] flex justify-start">Status</th>
+                    <th class="w-[100px] flex justify-start">Action</th>
+                  </tr>
+                </thead>
+                <!-- End table head-->
+
+                <!-- Table body-->
+                <tbody class="w-full">
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                  hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                                    hover:border-red-400 transition-all duration-500 ease-in-out">
+                    <td class="w-[50px] flex justify-center">
+                      <form action="" class="flex items-center justify-center">
+                        <input type="checkbox" id="" name="" value="" class="w-[25px] h-[25px]">
+                      </form>
+                    </td>
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="../src/assets/images/cat.jpg" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-start items-center font-Primary-medium text-lg  overflow-hidden">Mod
+                        name</span>
+                    </td>
+                    <td
+                      class="w-[200px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      0123456789
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      useremail123@gmail.com
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
+                      Action
+                    </td>
+                    <td class="w-[100px] flex justify-center">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+                        <button type="button" class="delete-button">
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+
+                </tbody>
+                <!-- End table body -->
+
+              </table>
+              <!-- End the table database -->
+            </div>
+
+            <!--Pagination section-->
+            <nav class="page-navigation w-full justify-center flex mt-5">
+              <ul class="pagination flex gap-2 justify-center items-center">
+                <li class="page-item text-2xl w-[35px] h-[35px]">
+                  <a class="page-link w-full h-full flex justify-end" href="#" aria-label="Next">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center"
+                    href="#">1</a>
+                </li>
+                <li
+                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li
+                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li
+                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                  <a class="page-link" href="#">4</a>
+                </li>
+                <li
+                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                  <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item text-2xl w-[35px] h-[35px]">
+                  <a class="page-link w-full h-full flex justify-start" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <!--End the pagination section-->
+
+          </section>
+          <!-- End the display data section wrapper-->
+
+        </div>
+        <!-- End the main content section -->
+
+      </div>
+      <!-- End the page content -->
+
+      <script type=" module" src="../src/javascript/main.js"></script>
+</body>
+
+</html>

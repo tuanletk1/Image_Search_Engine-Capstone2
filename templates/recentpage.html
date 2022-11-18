@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Image Search Engine</title>
+</head>
+
+<body>
+  <div class="wrapper w-[1500px] m-auto p-[25px] bg-[#F6FAFF] flex font-Primary-regular">
+    <!-- Container -->
+    <div class="container bg-white">
+
+      <!-- Header -->
+      <header class="border-b-4 border-[#F6F6F6]">
+
+        <!-- Navbar -->
+        <nav class="navbar flex justify-between items-center px-[50px]">
+
+          <!-- The logo of page -->
+          <h1 class="logo pt-4">
+            <a href="{% url 'homepage' %}">
+              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
+            </a>
+          </h1>
+          <!-- End the logo of page -->
+
+          <!-- The information of the user -->
+          <div class="infor-user flex gap-6 justify-center items-center">
+            <div class="avtar-user w-[60px] h-[60px] hover:scale-125 transition-all duration-500 ease-in-out">
+              <img src="../../static/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
+            </div>
+              {% if request.session.auth %}
+                <div class="detail-infor-user flex flex-col h-full">
+                  <span class="font-Primary-bold text-[#25396F] text-xl font-bold">{{ request.session.auth.username }} </span>
+                  <span class="font-Primary-bold text-[#7C8DB5] text-lg font-semibold">{{ request.session.auth.email }}</span>
+                </div>
+              {% endif %}
+          </div>
+          <!-- End the information of the user -->
+
+        </nav>
+        <!-- End the navbar -->
+
+      </header>
+      <!-- End the header -->
+
+      <!-- Page content -->
+      <div class="content flex my-6">
+
+        <!-- Side menu section -->
+        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+
+          <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <button class="p-[15px]">
+              <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+            </button>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
+          <!-- End the dashboard button -->
+
+          <!-- Recent button -->
+          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'recent' %}" class="p-[15px]">
+              <img src="../../static/assets/images/Recent_Icon.svg">
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+          <!-- End the recent button -->
+
+          <!-- Favorites button -->
+          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'favorite' %}" class="p-[15px]">
+              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+          <!-- End the favorites button -->
+         {% if request.session.auth.permission == 'admin' %}
+            <!-- User management button -->
+          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'user' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+          <!-- End the user management button -->
+
+          <!-- Moderator management button -->
+          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="" class="p-[15px]">
+              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+          <!-- End the moderator management button -->
+            {% endif %}
+        </div>
+        <!-- End the side menu section -->
+
+
+        <!-- Main content -->
+        <div class="main-content w-full mx-10 flex flex-col justify-center items-center">
+
+          <!-- Searchbar section -->
+          <section class="searchbar w-[60%] justify-center items-center border-4 border-[#F0F0F0] rounded-xl px-6 py-4">
+            <form class="flex items-center">
+              <!-- Search button -->
+              <button type="submit" class="mr-3">
+                <i class="fa fa-search text-3xl"></i>
+              </button>
+              <!-- End search button -->
+
+              <!--  Input field -->
+              <label htmlFor="username" class="w-full">
+                <input type=" text" placeholder="Search Files..." name="search" id="search"
+                  class="outline-none text-lg font-Primary-medium placeholder:text-[#7C8DB5] placeholder:text-lg">
+              </label>
+              <!-- End the input field -->
+
+            </form>
+          </section>
+          <!-- End the searchbar section -->
+
+          <!-- Display image section wrapper-->
+          <section class="display-image-section mt-10 mb-5 w-full drop-shadow-sm">
+
+            <!-- Display card section -->
+            <div class="render-product-card flex flex-wrap gap-8 justify-start">
+            {% for product in products %}
+              <!-- Product card -->
+              <div class="w-[250px] product-card mb-4 transition-all duration-300 ease-in-out
+              hover:scale-105 rounded-2xl overflow-hidden border-2 border-[#51459E]">
+
+                <!-- Product image card -->
+                <div
+                  class="w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 overflow-hidden relative">
+                  <img src="{{product.images_link}}" class="w-full">
+                  <div
+                    class="w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
+                    <i
+                      class="fa-solid fa-delete-left text-3xl text-gray-400 hover:text-red-500 transition-all duration-500 ease-in-out"></i>
+                  </div>
+                  <div
+                    class="w-full flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
+                    <span
+                      class="text-xl font-Primary-bold text-red-600 transition-all duration-500 ease-in-out">{{ product.shop }}.vn</span>
+                  </div>
+                </div>
+                <!-- End the product image card -->
+
+                <!-- Product card detail -->
+                <div class="product-card-detail flex w-full justify-between px-2 mb-2">
+
+                  <!-- Product card infor -->
+                  <div class="product-card-infor flex flex-col">
+                    <span class="product-card-name font-Primary-medium text-[#51459E] text-lg">{{ product.product_name}}</span>
+                    <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price}}đ</span>
+                  </div>
+                  <!-- Product card infor -->
+
+                  <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
+                </div>
+                <!-- End the product card detail -->
+
+              </div>
+              <!-- End the product card -->
+                {% endfor %}
+
+            </div>
+            <!-- Display card section -->
+
+            <!--Pagination section-->
+            <nav class="page-navigation w-full justify-center flex mt-5">
+              <ul class="pagination flex gap-2 justify-center items-center">
+                  {% if products.has_previous %}
+                <li class="page-item text-2xl w-[35px] h-[35px]">
+                  <a class="page-link w-full h-full flex justify-end" href="?page={{ products.previous_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                   {% endif %}
+                <span class="current">
+                    Page {{ products.number }} of {{ products.paginator.num_pages }}.
+                </span>
+                    {% if products.has_next %}
+                <li class="page-item text-2xl w-[35px] h-[35px]">
+                  <a class="page-link w-full h-full flex justify-start" href="?page={{ products.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              {% endif %}
+              </ul>
+            </nav>
+            <!--End the pagination section-->
+
+          </section>
+          <!-- End the display image section wrapper-->
+
+        </div>
+        <!-- End the main content section -->
+
+      </div>
+      <!-- End the page content -->
+
+      <script type=" module" src="../src/javascript/main.js"></script>
+</body>
+
+</html>

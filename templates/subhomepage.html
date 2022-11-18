@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Image Search Engine</title>
+</head>
+
+<body>
+  <div class="wrapper w-[1500px] m-auto p-[25px] bg-[#F6FAFF] flex font-Primary-regular">
+    <!-- Container -->
+    <div class="container bg-white">
+
+      <!-- Header -->
+      <header class="border-b-4 border-[#F6F6F6]">
+
+        <!-- Navbar -->
+        <nav class="navbar flex justify-between items-center px-[50px]">
+
+          <!-- The logo of page -->
+          <h1 class="logo pt-4">
+            <a href="{% url 'homepage' %}">
+              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
+            </a>
+          </h1>
+          <!-- End the logo of page -->
+
+          <!-- Login logout section -->
+          <div class="flex gap-6">
+            <a href="{% url 'login' %}" class="w-[100px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
+              items-center border-2 bg-[#51459E] p-[9px] rounded-[10px] text-[#DEE1E6]
+              hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+              transition-all duration-500 ease-in-out uppercase">Sign in
+            </a>
+            <a href="{% url 'register' %}" class="w-[100px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
+              items-center border-2 bg-[#DEE1E6] p-[9px] rounded-[10px] text-[#51459E]
+              hover:bg-[#51459E]  hover:text-[#DEE1E6] hover:border-[#DEE1E6]
+              transition-all duration-500 ease-in-out uppercase">Sign up
+            </a>
+          </div>
+          <!-- End the login logout section -->
+
+        </nav>
+        <!-- End the navbar-->
+
+      </header>
+      <!-- End the header -->
+
+      <!-- Page Content -->
+      <div class="content flex my-6">
+
+        <!-- Side menu -->
+        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+
+          <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <button class="p-[15px]">
+              <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+            </button>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
+          <!-- End the dashboard button -->
+
+          <!-- Recent button -->
+          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'recent' %}" class="p-[15px]">
+              <img src="../../static/assets/images/Recent_Icon.svg">
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+          <!-- End the recent button -->
+
+          <!-- Favorites button -->
+          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'favorite' %}" class="p-[15px]">
+              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+          <!-- End the favorites button -->
+        </div>
+        <!-- End the side menu -->
+
+        <!-- Main content -->
+        <div class="main-content w-full mx-10">
+
+          <!-- Upload image section -->
+          <form action="{% url 'search' %}" method="post" enctype="multipart/form-data" onsubmit="document.getElementById('button_submit').disabled=true;">
+                {% csrf_token %}
+                <input type="file" hidden name="img_file" id="image" onchange="form.submit()">
+              <section class="upload-image-section bg-[#F6F5FF] flex rounded-xl py-[50px]
+              justify-center items-center drop-shadow-lg">
+                <div class="flex flex-col items-center text-center">
+                  <h2 class="label text-[#51459E] font-Primary-bold font-bold text-3xl">Image Search Engine</h2>
+                  <p class="guide my-[28px] text-[#7987A5] font-Primary-bold font-semibold text-xl">
+                    Welcome to ISE's product search engine.<br>
+                    To start your search, please click the Upload Image button below.
+                  </p>
+                  <button onclick="document.getElementById('image').click()" type="button" class="w-[200px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
+                  items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
+                  hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+                  transition-all duration-500 ease-in-out uppercase"
+                  id="button_submit"
+                  >upload image</button>
+                </div>
+              </section>
+            </form>
+          <!-- End the upload image section -->
+
+          <!-- Display image section -->
+          <section class="display-image-section flex flex-wrap mt-10 mb-5 w-full justify-between drop-shadow-lg">
+            {% for product in products %}
+            <!-- Display image section -->
+            <div class="w-[250px] flex flex-col justify-center items-center relative mb-6 transition-all duration-300 ease-in-out
+            hover:scale-105 rounded-2xl overflow-hidden border-2 border-gray-300">
+                <a href="{% url 'to_product' id=product.id %}">
+                  <img src="{{ product.images_link }}" class="w-[250px] rounded-2xl">
+                  <i class="fa-solid fa-ellipsis-vertical text-4xl flex
+                    right-2 px-1 absolute z-10 top-6 text-[#3734A9] bg-white rounded-lg"></i>
+
+                </a>
+            </div>
+            <!-- End the display image section -->
+            {% endfor %}
+          </section>
+          <!-- End the display image section -->
+
+        </div>
+        <!-- End the main content section -->
+
+      </div>
+      <!-- End the page content -->
+    </div></div>
+</body>
+
+</html>

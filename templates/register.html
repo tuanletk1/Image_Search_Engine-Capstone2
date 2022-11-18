@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Image Search Engine</title>
+</head>
+
+<body>
+  <div class="wrapper w-[1500px] h-[700px] m-auto flex font-Primary-regular signUpBackground">
+    <!-- Container -->
+    <div class="container w-full flex">
+      <!-- Overview section -->
+      <div class="overview w-1/2 h-full pt-20 flex flex-col justify-start items-center">
+        <span class="font-Primary-bold text-2xl text-white">Already have an account ?</span>
+        <p w class="w-[60%] mt-3 mb-7 flex text-center font-Primary-bold text-lg tracking-wider text-white">
+          ISE helps you search for the product according to the image you provide most accurately</p>
+        <a href="{% url 'login' %}" class="w-[100px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
+          items-center border-2 bg-[#DEE1E6] p-[9px] rounded-3xl text-[#51459E]
+          hover:bg-[#51459E]  hover:text-[#DEE1E6] hover:border-[#DEE1E6]
+          transition-all duration-500 ease-in-out uppercase">Login</a>
+      </div>
+      <!-- End the overview section -->
+
+      <!-- Display the form login -->
+      <div class="form-login flex flex-col w-1/2  justify-center items-center">
+
+        <!-- Form login title -->
+        <h2 class="form-title font-Primary-bold font-bold text-3xl text-[#51459E]">Image Search Engine</h2>
+        <!-- End the form login title -->
+        {% for error in form.username.errors %}
+            <p>* {{ error }}</p>
+        {% endfor %}
+         {% for error in form.email.errors %}
+            <p>* {{ error }}</p>
+        {% endfor %}
+        {% for error in form.password.errors %}
+            <p>* {{ error }}</p>
+        {% endfor %}
+        {% for error in form.confirm_password.errors %}
+            <p>* {{ error }}</p>
+        {% endfor %}
+        <!-- Form -->
+        <form class="form-group flex flex-col w-full px-40 mt-10 mb-4" method="post" action="{% url 'register' %}">
+          {% csrf_token %}
+          <!-- The username field -->
+          <label htmlFor="username" class="username-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+            {{ form.username }}
+          </label>
+
+          <!-- End the username field -->
+
+          <!-- The email field -->
+          <label htmlFor="email" class="email-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+            {{ form.email }}
+          </label>
+          <!-- End the email field -->
+
+          <!-- The password field -->
+          <label htmlFor="password" class="password-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+            {{ form.password }}
+          </label>
+          <!-- End the password field -->
+
+          <!-- The confirm password field -->
+          <label htmlFor="confirm-password"
+            class="confirm-password-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+            {{ form.confirm_password }}
+          </label>
+
+          <!-- End the confirm password field -->
+        <!-- Button submit form -->
+        <button type="submit" id="signUpButton" class="w-[150px] h-[40px] font-Primary-bold font-medium text-2xl flex justify-center
+              items-center border-2 bg-[#51459E] p-[9px] rounded-3xl text-[#DEE1E6]
+              hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+              transition-all duration-500 ease-in-out uppercase">
+          Sign Up
+        </button>
+        <!-- End the button submit form -->
+
+        </form>
+        <!-- End form-->
+      </div>
+      <!-- End the form login -->
+
+    </div>
+    <!-- End the container -->
+
+  </div>
+</body>
+
+</html>
