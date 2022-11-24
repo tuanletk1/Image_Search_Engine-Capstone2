@@ -1,5 +1,5 @@
 import datetime
-
+from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
@@ -56,7 +56,7 @@ def search(request):
   context = {
     "products": products,
     "filters": filter_arr,
-    "search_file": path+file_name+'.jpg'
+    "search_file": path + file_name + '.jpg'
   }
   return HttpResponse(template.render(context, request))
 
@@ -66,7 +66,7 @@ def recent(request):
     return HttpResponseRedirect(reverse('login'))
   user = User.objects.get(id=request.session.get('auth').get('id'))
   products = user.product_set.all().order_by('-productuser__view_date')
-  paginator = Paginator(products, 2)
+  paginator = Paginator(products, 8)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   context = {
@@ -76,11 +76,52 @@ def recent(request):
   return HttpResponse(template.render(context, request))
 
 
+def destroy_recent(request, id):
+  user_id = request.session.get('auth').get('id')
+  recent = get_object_or_404(ProductUser, product=id, user=user_id)
+  recent.delete()
+  return HttpResponseRedirect(reverse('recent'))
+
+
 def favorite(request):
   if not request.session.get('auth'):
     return HttpResponseRedirect(reverse('login'))
+  user = User.objects.get(id=request.session.get('auth').get('id'))
+  products = user.product_set.filter(productuser__favorite=True).order_by('-productuser__view_date')
+  paginator = Paginator(products, 8)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  print(products)
+  context = {
+    'products': page_obj,
+  }
   template = loader.get_template('favoritespage.html')
-  return HttpResponse(template.render({}, request))
+  return HttpResponse(template.render(context, request))
+
+
+def add_favorite(request, id):
+  if not request.session.get('auth'):
+    return HttpResponseRedirect(reverse('login'))
+  product = get_object_or_404(Product, id=id)
+  if product:
+    if request.session.get('auth'):
+      user = User.objects.get(id=request.session.get('auth').get('id'))
+      product_user = ProductUser.objects.filter(product=product, user=user)
+      if not product_user:
+        pivot = ProductUser(
+          product=product,
+          user=user,
+          favorite=True,
+        )
+        pivot.save()
+        return JsonResponse({}, status=200)
+      elif product_user[0].favorite:
+        product_user.update(favorite=False)
+        return JsonResponse({}, status=400)
+      else:
+        product_user.update(favorite=True)
+        return JsonResponse({}, status=200)
+  return JsonResponse({}, status=401)
 
 
 def go_to_link(request, id):

@@ -148,11 +148,15 @@
                 <!-- Product image card -->
                 <div
                   class="w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 overflow-hidden relative">
-                  <img src="{{product.images_link}}" class="w-full">
+                    <a href="{{ product.product_link }}">
+                    <img src="{{product.images_link}}" class="w-full">
+                        </a>
                   <div
                     class="w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
-                    <i
+                    <a href="delete/{{ product.id }}">
+                      <i
                       class="fa-solid fa-delete-left text-3xl text-gray-400 hover:text-red-500 transition-all duration-500 ease-in-out"></i>
+                      </a>
                   </div>
                   <div
                     class="w-full flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
@@ -167,12 +171,15 @@
 
                   <!-- Product card infor -->
                   <div class="product-card-infor flex flex-col">
+                      <a href="{{ product.product_link }}">
                     <span class="product-card-name font-Primary-medium text-[#51459E] text-lg">{{ product.product_name}}</span>
-                    <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price}}đ</span>
+                    </a>
+                  <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price}}đ</span>
                   </div>
                   <!-- Product card infor -->
-
+                    <a href="{{ product.product_link }}">
                   <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
+                    </a>
                 </div>
                 <!-- End the product card detail -->
 
