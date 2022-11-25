@@ -80,7 +80,7 @@ def destroy_recent(request, id):
   user_id = request.session.get('auth').get('id')
   recent = get_object_or_404(ProductUser, product=id, user=user_id)
   recent.delete()
-  return HttpResponseRedirect(reverse('recent'))
+  return JsonResponse({}, status=200)
 
 
 def favorite(request):
@@ -101,7 +101,7 @@ def favorite(request):
 
 def add_favorite(request, id):
   if not request.session.get('auth'):
-    return HttpResponseRedirect(reverse('login'))
+    return JsonResponse({}, status=403)
   product = get_object_or_404(Product, id=id)
   if product:
     if request.session.get('auth'):
@@ -112,6 +112,7 @@ def add_favorite(request, id):
           product=product,
           user=user,
           favorite=True,
+          view_date=datetime.datetime.now(),
         )
         pivot.save()
         return JsonResponse({}, status=200)
@@ -134,11 +135,12 @@ def go_to_link(request, id):
         pivot = ProductUser(
           product=product,
           user=user,
+          view_date=datetime.datetime.now(),
         )
         pivot.save()
       else:
         product_user.update(view_date=datetime.datetime.now())
-    return HttpResponseRedirect(product.product_link)
+    return HttpResponseRedirect(product.product_link.replace(' ', '-').replace('%', '-'))
   return HttpResponseRedirect('homepage')
 
 

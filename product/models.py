@@ -24,7 +24,7 @@ class ProductUser(models.Model):
     product = models.ForeignKey(Product ,on_delete=models.CASCADE)
     user = models.ForeignKey(User ,on_delete=models.CASCADE)
     favorite = models.BooleanField(null=True)
-    view_date = models.DateTimeField(auto_now=True)
+    view_date = models.DateTimeField()
 
     class Meta:
         db_table = 'products_user'

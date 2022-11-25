@@ -167,7 +167,7 @@
                                         <!-- Product image card -->
                                         <div
                                                 class="w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 overflow-hidden relative">
-                                            <a href="{% url 'to_product' id=product.id %}">
+                                            <a href="{% url 'to_product' id=product.id %}"  target="_blank">
                                                 <img src="{{ product.images_link }}" class="w-full">
                                             </a>
                                             <div
@@ -182,9 +182,9 @@
                                         <div class="product-card-detail flex w-full justify-between px-2 mb-2">
 
                                             <!-- Product card infor -->
-                                            <div class="product-card-infor flex flex-col">
-                                                <a href="{% url 'to_product' id=product.id %}">
-                                                    <span class="w-[200px] h-[60px] line-clamp-2 whitespace-normal overflow-hidden product-card-name font-Primary-medium text-[#51459E] text-lg">{{ product.product_name }}</span>
+                                            <div class="product-card-infor w-10/12 flex flex-col">
+                                                <a href="{% url 'to_product' id=product.id %}" target="_blank">
+                                                    <span class="product-card-name w-full h-full block font-Primary-medium text-lg truncate text-[#51459E]">{{ product.product_name }}</span>
                                                 </a>
                                                 <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price }}đ</span>
                                             </div>
@@ -236,7 +236,10 @@
                     },
                 400: function (res) {
                     alert('Remove favorite!')
-                }
+                },
+                    403: function (){
+                        alert('Please login to continue!')
+                    }
             }
             });
         });

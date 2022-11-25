@@ -71,6 +71,7 @@ def logout(request):
 def homepage(request):
     if request.session.get('auth'):
         template = loader.get_template('homepage.html')
+
     else:
         template = loader.get_template('subhomepage.html')
     products = Product.objects.all().values()
@@ -84,7 +85,7 @@ def homepage(request):
 
 def users(request):
     users = User.objects.filter(~Q(permission__permission='admin') | Q(permission__permission__contains='mod'))
-    paginator = Paginator(users, 25)
+    paginator = Paginator(users, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {

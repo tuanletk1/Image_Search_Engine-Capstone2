@@ -125,7 +125,7 @@
               <!-- End search button -->
 
               <!--  Input field -->
-              <label htmlFor="username" class="w-full">
+              <label for="username" class="w-full">
                 <input type=" text" placeholder="Search Files..." name="search" id="search"
                   class="outline-none text-lg font-Primary-medium placeholder:text-[#7C8DB5] placeholder:text-lg">
               </label>
@@ -142,21 +142,22 @@
             <div class="render-product-card flex flex-wrap gap-8 justify-start">
                 {% for product in products %}
               <!-- Product card -->
-              <div class="product-card mb-4 transition-all duration-300 ease-in-out
-              hover:scale-105 rounded-2xl overflow-hidden border-2 border-[#51459E]">
+              <div class="w-[250px] product-card mb-4 transition-all duration-300 ease-in-out
+              hover:scale-105 rounded-2xl overflow-hidden border-2 border-[#51459E]"
+              id="product-{{ product.id }}">
 
                 <!-- Product image card -->
                 <div
                   class="w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 overflow-hidden relative">
-                  <a href="{{ product.product_link }}">
+                  <a href="{% url 'to_product' id=product.id %}"  target="_blank">
                     <img src="{{product.images_link}}" class="w-full">
                         </a>
                   <div
                     class="w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
-                    <a href="{% url 'add_favorite' id=product.id %}">
+                    <button class="link-btn" id="link-{{ product.id }}">
                       <i
                       class="fa-solid fa-heart text-3xl text-gray-400 hover:text-red-600 transition-all duration-500 ease-in-out"></i>
-                  </a>
+                  </button>
                   </div>
                   <div
                     class="w-full flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
@@ -170,15 +171,15 @@
                 <div class="product-card-detail flex w-full justify-between px-2 mb-2">
 
                   <!-- Product card infor -->
-                  <div class="product-card-infor flex flex-col">
-                      <a href="{{ product.product_link }}">
-                    <span class="product-card-name font-Primary-medium text-[#51459E] text-lg">{{ product.product_name}}</span>
+                  <div class="product-card-infor w-10/12 flex flex-col">
+                      <a href="{% url 'to_product' id=product.id %}"  target="_blank">
+                    <span class="product-card-name w-full h-full block font-Primary-medium text-lg truncate text-[#51459E]">{{ product.product_name}}</span>
                       </a>
                           <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price}}đ</span>
                   </div>
                   <!-- Product card infor -->
 
-                 <a href="{{ product.product_link }}">
+                 <a href="{% url 'to_product' id=product.id %}"  target="_blank">
                   <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
                     </a>
                 </div>
@@ -226,6 +227,37 @@
       <!-- End the page content -->
     </div>
     </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+{% block javascript %}
+    <script>
+     $(document).on('click','.link-btn', function ()
+        {
+            var $this = $(this);
+            var id = $this.attr('id').split('-')[1];
+            var url = "{% url 'add_favorite' id=0 %}".replace('0', id);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'json',
+                statusCode: {
+                    200: function(res) {
+                        console.log(res);
+                        alert('Add to favorite!')
+                    },
+                400: function (res) {
+                        $('#product-'+id).remove()
+                    alert('Remove favorite!')
+                },
+                    403: function (){
+                        alert('Please login to continue!')
+                    }
+            }
+            });
+        });
+    </script>
+{% endblock %}
 </body>
 
 </html>

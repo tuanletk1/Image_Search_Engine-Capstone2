@@ -49,26 +49,26 @@
         <form class="form-group flex flex-col w-full px-40 mt-10 mb-4" method="post" action="{% url 'register' %}">
           {% csrf_token %}
           <!-- The username field -->
-          <label htmlFor="username" class="username-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+          <label for="username" class="username-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
             {{ form.username }}
           </label>
 
           <!-- End the username field -->
 
           <!-- The email field -->
-          <label htmlFor="email" class="email-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+          <label for="email" class="email-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
             {{ form.email }}
           </label>
           <!-- End the email field -->
 
           <!-- The password field -->
-          <label htmlFor="password" class="password-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+          <label for="password" class="password-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
             {{ form.password }}
           </label>
           <!-- End the password field -->
 
           <!-- The confirm password field -->
-          <label htmlFor="confirm-password"
+          <label for="confirm-password"
             class="confirm-password-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
             {{ form.confirm_password }}
           </label>
