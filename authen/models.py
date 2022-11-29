@@ -10,11 +10,12 @@ class User(models.Model):
   email = models.EmailField(max_length=255)
   password = models.CharField(max_length=255)
   is_active = models.BooleanField(null=True)
+  avatar = models.TextField(null=True)
 
   def toJson(self):
     data = '{"id": "' + str(self.id) + '", "username": "' + str(self.username) + '", "role": "' \
            + str(self.permission_set.all().values().get().get('permission')) + '", ' + \
-           '"phone":"' + self.email + '"}'
+           '"email":"' + self.email + '", "avatar":"' + self.avatar + '"}'
     return json.loads(data)
 
   class Meta:

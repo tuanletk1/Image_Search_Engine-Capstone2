@@ -178,7 +178,7 @@
 
                     <td class="w-[200px] flex justify-start items-center gap-4">
                       <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
-                        <img src="../../static/assets/images/cat.jpg" class="w-full h-fit">
+                        <img src="{{ user.avatar }}" class="w-full h-fit">
                       </div>
                       <span
                         class="w-full h-[50px] flex justify-center items-center font-Primary-medium text-lg  overflow-hidden">
@@ -272,9 +272,10 @@
                               <label for="user" class="image-label flex w-full justify-between">
                                 Image
                                 <div class="flex flex-col w-[80%] items-start">
-                                  <img
+                                    <input type="file" hidden name="img_file" id="create_image">
+                                  <img id="add_avatar"
                                     class="w-[200px] h-[200px] px-4 py-1 text-xl font-Primary-medium bg-[#D9D9D9] rounded-sm" />
-                                  <button type="button"
+                                  <button type="button" onclick="$('#create_image').click()"
                                     class="border border-slate-500 p-2 mt-2 rounded-lg text-sm">Upload
                                     Image</button>
                                 </div>
@@ -284,14 +285,6 @@
                               <label for="user" class="user-label flex w-full justify-between items-center">
                                 Username
                                 <input type="text" id="user"
-                                  class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
-                                  required />
-                              </label>
-
-                              <!-- The phone field -->
-                              <label for="phone" class="phone-label flex w-full justify-between items-center">
-                                Phone
-                                <input type="number" id="phone"
                                   class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
                                   required />
                               </label>
@@ -309,9 +302,9 @@
                                 Role
                                 <select id="role" class="border border-slate-600 p-1 ml-[60px]" required>
                                   <option selected>Choose a role</option>
-                                  <option value="user">User</option>
-                                  <option value="modShopee">Shopee Moderator</option>
-                                  <option value="modTiki">Tiki Moderator</option>
+                                  <option value="4">User</option>
+                                  <option value="2">Shopee Moderator</option>
+                                  <option value="3">Tiki Moderator</option>
                                 </select>
                               </label>
                             </form>
@@ -347,14 +340,16 @@
                           <div class="mt-3 text-center">
                             <h3 class="text-lg font-Primary-bold uppercase text-gray-900" id="modal-title">
                               Edit the account</h3>
-                            <form
+                            <form action="{% url 'update_role' %}" method="post"
                               class="flex flex-col border-2 rounded-sm border-green-600 p-5 items-start justify-between gap-5 w-[500px] my-8">
-                              <!-- The image field -->
+                               {% csrf_token %}
+                                <input type="hidden" name="edit_id" id="edit_id">
+                                <!-- The image field -->
                               <label for="user" class="image-label flex w-full justify-between">
                                 Image
                                 <div class="flex flex-col w-[80%] items-start">
-                                  <img
-                                    class="w-[200px] h-[200px] px-4 py-1 text-xl font-Primary-medium bg-[#D9D9D9] rounded-sm" />
+                                  <img id="edit_avatar"
+                                    class="w-[200px] h-[200px] px-4 py-1 text-xl font-Primary-medium bg-[#D9D9D9] rounded-sm"  alt="avatar" src=""/>
                                   <button type="button"
                                     class="border border-slate-500 p-2 mt-2 rounded-lg text-sm">Upload
                                     Image</button>
@@ -369,13 +364,6 @@
                                   required />
                               </label>
 
-                              <!-- The phone field -->
-                              <label for="phone" class="phone-label flex w-full justify-between items-center">
-                                Phone
-                                <input type="number" id="edit_phone"
-                                  class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
-                                  required />
-                              </label>
 
                               <!-- The email field -->
                               <label for="email" class="email-label flex w-full justify-between items-center">
@@ -388,20 +376,20 @@
 
                                 <label class="role role-label flex w-full justify-start items-center" for="email">
                                 Role
-                                <select id="role" class="border border-slate-600 p-1 ml-[60px]" required>
+                                <select name="edit_role" id="role" class="border border-slate-600 p-1 ml-[60px]" required>
                                   <option selected>Choose a role</option>
-                                  <option value="user">User</option>
-                                  <option value="modShopee">Shopee Moderator</option>
-                                  <option value="modTiki">Tiki Moderator</option>
+                                  <option value="4">User</option>
+                                  <option value="2">Shopee Moderator</option>
+                                  <option value="3">Tiki Moderator</option>
                                 </select>
                               </label>
-
+                                <input type="submit" hidden id="edit_submit">
                             </form>
                           </div>
                         </div>
                       </div>
                       <div class="bg-gray-50 py-3 flex justify-between px-6">
-                        <button type="button"
+                        <button type="button" onclick="$('#edit_submit').click()"
                           class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                           Edit
                         </button>
@@ -469,15 +457,31 @@
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID).classList.toggle("flex");
     console.log(json)
+      $('#edit_id').val(json.id??null)
       $('#edit_user').val(json.username??null)
-      $('#edit_email').val(json.phone??null)
-      $('#edit_phone').val(json.id??null)
+      $('#edit_email').val(json.email??null)
+      $('#edit_avatar').attr('src', json.avatar??null)
       $('#edit_role').val(json.role??null)
   }
   function deleteModal(modalID){
     document.getElementById(modalID).classList.toggle("hidden");
     document.getElementById(modalID).classList.toggle("flex");
   }
+  function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#add_avatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#create_image").change(function(){
+        readURL(this);
+    });
 </script>
 </body>
 

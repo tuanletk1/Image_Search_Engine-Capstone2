@@ -1,10 +1,12 @@
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 from . import forms
 from .models import User, Permission
@@ -44,6 +46,7 @@ def register(request):
                 username=username,
                 email=email,
                 password=make_password(password),
+                avatar='../../static/assets/images/cat.jpg'
             )
             user.save()
             permission = Permission.objects.get(id=4)
@@ -84,7 +87,7 @@ def homepage(request):
 
 
 def users(request):
-    users = User.objects.filter(~Q(permission__permission='admin') | Q(permission__permission__contains='mod'))
+    users = User.objects.filter(~Q(permission__permission='admin') & ~Q(permission__permission__contains='mod'))
     paginator = Paginator(users, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -95,6 +98,14 @@ def users(request):
     return HttpResponse(template.render(context, request))
 
 
+def update_role(request):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=request.POST['edit_id'])
+        user.permission_set.set([request.POST['edit_role']])
+        return JsonResponse({}, status=200)
+    return JsonResponse({}, status=400)
+
+
 def set_session(request, user):
     request.session['auth'] = {
         'id': user.id,
@@ -103,5 +114,6 @@ def set_session(request, user):
         'last_name': user.last_name,
         'email': user.email,
         'is_active': user.is_active,
+        'avatar': user.avatar,
         'permission': user.permission_set.all().values().get().get('permission')
     }
