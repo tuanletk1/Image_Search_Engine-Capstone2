@@ -25,6 +25,7 @@ def crawl_shopee(request):
 
 
 def crawl_tiki(request):
+  tiki_crawl = None
   tiki_crawl = Tiki()
   tiki_crawl.crawl()
   return HttpResponseRedirect(reverse('homepage'))

@@ -67,7 +67,19 @@
           </div>
           <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
           <!-- End the dashboard button -->
-
+            {% if request.session.auth.permission != 'user' %}
+        <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'crawl' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
+          <!-- End the dashboard button -->
+        {% endif %}
           <!-- Recent button -->
           <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
           hover:scale-125 rounded-[10px] flex justify-center items-center">
@@ -101,7 +113,7 @@
           <!-- Moderator management button -->
           <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
           hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="" class="p-[15px]">
+            <a href="{% url 'mod' %}" class="p-[15px]">
               <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
             </a>
           </div>

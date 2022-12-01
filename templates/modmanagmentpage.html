@@ -1,0 +1,567 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Image Search Engine</title>
+</head>
+
+<body>
+  <div class="wrapper w-[1500px] m-auto p-[25px] bg-[#F6FAFF] flex font-Primary-regular">
+    <!-- Container -->
+    <div class="container bg-white">
+
+      <!-- Header -->
+      <header class="border-b-4 border-[#F6F6F6]">
+
+        <!-- Navbar -->
+        <nav class="navbar flex justify-between items-center px-[50px]">
+
+          <!-- The logo of page -->
+          <h1 class="logo pt-4">
+            <a href="{% url 'homepage' %}">
+              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
+            </a>
+          </h1>
+          <!-- End the logo of page -->
+
+          <!-- The information of the user -->
+          <div class="infor-user flex gap-6 justify-center items-center">
+            <div class="avtar-user w-[60px] h-[60px] hover:scale-125 transition-all duration-500 ease-in-out">
+              <img src="../../static/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
+            </div>
+              {% if request.session.auth %}
+                <div class="detail-infor-user flex flex-col h-full">
+                  <span class="font-Primary-bold text-[#25396F] text-xl font-bold">{{ request.session.auth.username }} </span>
+                  <span class="font-Primary-bold text-[#7C8DB5] text-lg font-semibold">{{ request.session.auth.email }}</span>
+                </div>
+              {% endif %}
+          </div>
+          <!-- End the information of the user -->
+
+        </nav>
+        <!-- End the navbar -->
+
+      </header>
+      <!-- End the header -->
+
+      <!-- Page content -->
+      <div class="content flex my-6">
+
+        <!-- Side menu section -->
+        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+
+          <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'homepage' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
+          <!-- End the dashboard button -->
+        {% if request.session.auth.permission != 'user' %}
+        <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'crawl' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
+          <!-- End the dashboard button -->
+        {% endif %}
+          <!-- Recent button -->
+          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'recent' %}" class="p-[15px]">
+              <img src="../../static/assets/images/Recent_Icon.svg">
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+          <!-- End the recent button -->
+
+          <!-- Favorites button -->
+          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'favorite' %}" class="p-[15px]">
+              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+          <!-- End the favorites button -->
+         {% if request.session.auth.permission == 'admin' %}
+            <!-- User management button -->
+          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'user' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+          <!-- End the user management button -->
+
+          <!-- Moderator management button -->
+          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'mod' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+          <!-- End the moderator management button -->
+            {% endif %}
+        </div>
+        <!-- End the side menu section -->
+
+
+        <!-- Main content -->
+        <div class="main-content w-full mx-10 flex flex-col justify-center items-center">
+
+          <!-- Searchbar and group button section wrapper-->
+          <div class="w-full flex justify-between items-center">
+
+            <!-- Searchbar section -->
+            <div class="searchbar w-3/4 justify-center items-center border-4 border-[#F0F0F0] rounded-xl p-3">
+              <form class="flex items-center">
+                <!-- Search button -->
+                <button type="submit" class="mr-3">
+                  <i class="fa fa-search text-3xl"></i>
+                </button>
+                <!-- End search button -->
+
+                <!--  Input field -->
+                <label for="username" class="w-full">
+                  <input type=" text" placeholder="Search Files..." name="search" id="search"
+                    class="outline-none text-lg font-Primary-medium placeholder:text-[#7C8DB5] placeholder:text-lg">
+                </label>
+                <!-- End the input field -->
+
+              </form>
+            </div>
+            <!-- End the searchbar section -->
+
+            <div class="group-button flex gap-10">
+              <!-- Add new button -->
+              <button type="button" class="add-new-button w-[150px] h-[60px] font-Primary-bold font-medium text-lg flex justify-center
+              items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
+              hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+              transition-all duration-500 ease-in-out uppercase" onclick="toggleModal('create')">
+                Add new
+              </button>
+              <!-- End add new button -->
+
+            </div>
+          </div>
+          <!-- End the searchbar and group button section wrapper -->
+
+          <!-- Display data section wrapper-->
+          <section class="display-data-section mt-10 mb-5 w-full drop-shadow-sm">
+
+            <!-- Table database -->
+            <div class="table-database">
+              <table class="w-full">
+
+                <!-- Table head -->
+                <thead class="w-full">
+                  <tr class="w-full flex justify-between items-center px-2">
+                    <th class="w-[200px] flex justify-center">User</th>
+                    <th class="w-[300px] flex justify-center">Email</th>
+                    <th class="w-[100px] flex justify-center">Active</th>
+                      <th class="w-[100px] flex justify-center">Role</th>
+                    <th class="w-[100px] flex justify-center">Action</th>
+                  </tr>
+                </thead>
+                <!-- End table head-->
+
+                <!-- Table body-->
+                <tbody class="w-full">
+                    {% for user in page_obj %}
+                  <!-- Render table body here -->
+                  <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
+                  hover:border-red-400 transition-all duration-500 ease-in-out">
+
+                    <td class="w-[200px] flex justify-start items-center gap-4">
+                      <div class="w-1/2 h-fit border border-gray-400 rounded-lg overflow-hidden block">
+                        <img src="{{ user.avatar }}" class="w-full h-fit">
+                      </div>
+                      <span
+                        class="w-full h-[50px] flex justify-center items-center font-Primary-medium text-lg  overflow-hidden">
+                        {{ user.username }}</span>
+                    </td>
+                    <td
+                      class="w-[300px] h-[80px] flex justify-center items-center font-Primary-medium text-lg">
+                        {{ user.email }}
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex overflow-hidden justify-center items-center font-Primary-medium text-lg">
+                      {{ user.is_active }}
+                    </td>
+                    <td
+                      class="w-[100px] h-[80px] flex justify-center overflow-hidden items-center font-Primary-medium text-lg">
+                        {{ user.permission_set.all.values.get.permission }}
+                    </td>
+                    <td class="w-[100px] flex justify-start">
+                      <div class="group-button flex gap-5 text-xl">
+                        <button type="button" class="edit-button" onclick="toggleModal('edit', {{ user.toJson }})">
+                          <i class="fa-regular fa-pen-to-square text-green-500"></i>
+                        </button>
+
+                        <button type="button" class="delete-button" onclick="deleteModal('deleteModal', {{ user.toJson }})">
+                            <a href=""></a>
+                          <i class="fa-regular fa-trash-can text-red-500"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Render table body here -->
+                    {% endfor %}
+                </tbody>
+                <!-- End table body -->
+
+              </table>
+              <!-- End the table database -->
+            </div>
+
+            <!--Pagination section-->
+            <nav class="page-navigation w-full justify-center flex mt-5">
+              <ul class="pagination flex gap-2 justify-center items-center">
+                  {% if page_obj.has_previous %}
+                <li class="page-item text-2xl w-[35px] h-[35px]">
+                  <a class="page-link w-full h-full flex justify-end" href="?page={{ page_obj.previous_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                   {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                    {% if page_obj.has_next %}
+                <li class="page-item text-2xl w-[35px] h-[35px]">
+                  <a class="page-link w-full h-full flex justify-start" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              {% endif %}
+              </ul>
+            </nav>
+            <!--End the pagination section-->
+
+          </section>
+          <!-- End the display data section wrapper-->
+
+        </div>
+        <!-- End the main content section -->
+
+      </div>
+      <!-- End the page content -->
+<!-- Add modal form -->
+              <div class="add-modal-form relative z-10 hidden" aria-labelledby="modal-title" role="dialog"
+                aria-modal="true" id="create">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+                <div class="fixed inset-0 z-10 overflow-y-auto">
+                  <div class="flex min-h-full justify-center text-center items-start pt-8">
+                    <div
+                      class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-1/2">
+                      <div class="bg-white px-4 pt-5 flex flex-col justify-center">
+                        <div class="flex w-full justify-center">
+                          <div class="mt-3 text-center">
+                            <h3 class="text-lg font-Primary-bold uppercase text-gray-900" id="modal-title">
+                              Add new account</h3>
+                            <form
+                              class="flex flex-col border-2 rounded-sm border-blue-500 p-5 items-start justify-between gap-5 w-[500px] my-8">
+                              <!-- The image field -->
+                              <label for="user" class="image-label flex w-full justify-between">
+                                Image
+                                <div class="flex flex-col w-[80%] items-start">
+                                    <input type="file" hidden name="img_file" id="create_image">
+                                  <img id="add_avatar"
+                                    class="w-[200px] h-[200px] px-4 py-1 text-xl font-Primary-medium bg-[#D9D9D9] rounded-sm" />
+                                  <button type="button" onclick="$('#create_image').click()"
+                                    class="border border-slate-500 p-2 mt-2 rounded-lg text-sm">Upload
+                                    Image</button>
+                                </div>
+                              </label>
+
+                                <!-- The user field -->
+                              <label for="user" class="user-label flex w-full justify-between items-center">
+                                Username
+                                <input type="text" id="user"
+                                  class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
+                                  required />
+                              </label>
+
+                              <!-- The email field -->
+                              <label for="email" class="email-label flex w-full justify-between items-center">
+                                Email
+                                <input type="email" id="email"
+                                  class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
+                                  required />
+                              </label>
+
+                              <!-- The role field -->
+                              <label class="role role-label flex w-full justify-start items-center" for="role">
+                                Role
+                                <select id="role" class="border border-slate-600 p-1 ml-[60px]" required>
+                                  <option selected>Choose a role</option>
+                                  <option value="4">User</option>
+                                  <option value="2">Shopee Moderator</option>
+                                  <option value="3">Tiki Moderator</option>
+                                </select>
+                              </label>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bg-gray-50 py-3 flex justify-between px-6">
+                        <button type="button"
+                          class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                          Add
+                        </button>
+                        <button onclick="toggleModal('create')" type="button"
+                          class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End the Add modal form -->
+
+              <!-- Edit modal form -->
+              <div id="edit" class="edit-modal-form relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+                <div class="fixed inset-0 z-10 overflow-y-auto">
+                  <div class="flex min-h-full justify-center text-center items-start pt-8">
+                    <div
+                      class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-1/2">
+                      <div class="bg-white px-4 pt-5 flex flex-col justify-center">
+                        <div class="flex w-full justify-center">
+                          <div class="mt-3 text-center">
+                            <h3 class="text-lg font-Primary-bold uppercase text-gray-900" id="modal-title">
+                              Edit the account</h3>
+                            <form id="edit_form" method="post"
+                              class="flex flex-col border-2 rounded-sm border-green-600 p-5 items-start justify-between gap-5 w-[500px] my-8">
+                               {% csrf_token %}
+                                <input type="hidden" name="edit_id" id="edit_id">
+                                <!-- The image field -->
+                              <label for="user" class="image-label flex w-full justify-between">
+                                Image
+                                <div class="flex flex-col w-[80%] items-start">
+                                  <img id="edit_avatar"
+                                    class="w-[200px] h-[200px] px-4 py-1 text-xl font-Primary-medium bg-[#D9D9D9] rounded-sm"  alt="avatar" src=""/>
+                                  <button type="button"
+                                    class="border border-slate-500 p-2 mt-2 rounded-lg text-sm">Upload
+                                    Image</button>
+                                </div>
+                              </label>
+
+                                <!-- The user field -->
+                              <label for="user" class="user-label flex w-full justify-between items-center">
+                                Username
+                                <input type="text" id="edit_user"
+                                  class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
+                                  required />
+                              </label>
+
+
+                              <!-- The email field -->
+                              <label for="email" class="email-label flex w-full justify-between items-center">
+                                Email
+                                <input type="email" id="edit_email"
+                                  class="w-[80%] px-4 py-1 text-xl font-Primary-medium outline-none placeholder-slate-800 bg-[#D9D9D9] rounded-sm"
+                                  required />
+                              </label>
+
+
+                                <label class="role role-label flex w-full justify-start items-center" for="email">
+                                Role
+                                <select name="edit_role" id="role" class="border border-slate-600 p-1 ml-[60px]" required>
+                                  <option selected>Choose a role</option>
+                                  <option id="u" value="4">User</option>
+                                  <option id="sm" value="2">Shopee Moderator</option>
+                                  <option id="tm" value="3">Tiki Moderator</option>
+                                </select>
+                              </label>
+                                <input type="submit" hidden id="edit_submit">
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bg-gray-50 py-3 flex justify-between px-6">
+                        <button type="button" onclick="$('#edit_submit').click()"
+                          class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                          Edit
+                        </button>
+                        <button onclick="toggleModal('edit')" type="button"
+                          class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End the Edit modal form -->
+
+                <!-- Delete modal form -->
+              <div class="delete-modal-form relative z-10 opacity-0 hover:opacity-100 hidden" aria-labelledby="modal-title" role="dialog"
+                aria-modal="true" id="deleteModal">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div class="fixed inset-0 z-10 overflow-y-auto">
+                  <div class="flex min-h-full justify-center text-center items-start pt-20">
+                    <div
+                      class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-1/3">
+                      <div class="bg-white px-4 pt-5 pb-8 flex flex-col justify-center">
+                        <div class="flex w-full justify-center">
+                          <div class="mt-3 text-center">
+                            <h3 class="text-lg font-Primary-bold uppercase text-gray-900" id="modal-title">
+                              Delete the account</h3>
+                            <div
+                              class="mx-auto flex h-20 w-20 my-4 items-center justify-center rounded-full bg-red-100">
+                              <svg class="w-14 h-14 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 10.5v3.75m-9.303 3.376C1.83 19.126 2.914 21 4.645 21h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 4.88c-.866-1.501-3.032-1.501-3.898 0L2.697 17.626zM12 17.25h.007v.008H12v-.008z"></path>
+                              </svg>
+                            </div>
+                              <form id="rmv_form" method="post">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="remove_id" id="remove_id">
+                                  <input type="submit" hidden id="remove_submit">
+                              </form>
+                            <div class="mt-2">
+                              <p class="text-base text-gray-500">Are you sure you want to delete this account?
+                                <br>
+                                This action cannot be undone.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="bg-gray-50 py-3 flex justify-between px-6">
+                        <button type="button" onclick="$('#remove_submit').click()"
+                          class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                          Delete
+                        </button>
+                        <button type="button" onclick="deleteModal('deleteModal')"
+                          class="inline-flex items-center w-[85px] h-[40px] justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End the Delete modal form -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  function toggleModal(modalID, json){
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    console.log(json)
+      $('#edit_id').val(json.id??null)
+      $('#edit_user').val(json.username??null)
+      $('#edit_email').val(json.email??null)
+      $('#edit_avatar').attr('src', json.avatar??null)
+      $('#edit_role').val(json.role??null)
+      switch(json.perid) {
+          case "4":
+            // code block
+              $('#u').attr('selected', 'selected')
+            break;
+          case "3":
+            // code block
+              $('#tm').attr('selected', 'selected')
+            break;
+          case "2":
+            // code block
+              $('#sm').attr('selected', 'selected')
+            break;
+          default:
+            // code block
+        }
+  }
+  function deleteModal(modalID, json){
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID).classList.toggle("flex");
+    $('#remove_id').val(json.id??null)
+  }
+  function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#add_avatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#create_image").change(function(){
+        readURL(this);
+    });
+</script>
+    {% block javascript %}
+    <script>
+     $('#edit_form').submit(function ()
+        {
+            var serializedData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'update_role' %}",
+                data: serializedData,
+                statusCode: {
+                    200: function(res) {
+                        console.log(res);
+                        alert('Update Success!')
+                        location.reload();
+                    },
+                400: function (res) {
+                    alert('Server Error!')
+                    location.reload();
+                },
+            }
+            });
+        });
+     $('#rmv_form').submit(function (){
+          var serializedData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'remove_account' %}",
+                data: serializedData,
+                statusCode: {
+                    200: function(res) {
+                        console.log(res);
+                        alert('Remove Success!')
+                        location.reload();
+                    },
+                400: function (res) {
+                    alert('Server Error!')
+                    location.reload();
+                },
+            }
+            });
+     });
+    </script>
+{% endblock %}
+</body>
+
+</html>

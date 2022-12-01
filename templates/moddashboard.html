@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Image Search Engine</title>
 </head>
@@ -19,31 +20,27 @@
       <header class="border-b-4 border-[#F6F6F6]">
 
         <!-- Navbar -->
-        <nav class="navbar flex justify-between items-center px-[50px] relative">
+        <nav class="navbar flex justify-between items-center px-[50px]">
 
           <!-- The logo of page -->
           <h1 class="logo pt-4">
-            <a href="javascript:void(0)">
-              <img src="../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
+            <a href="{% url 'homepage' %}">
+              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
             </a>
           </h1>
           <!-- End the logo of page -->
 
           <!-- The information of the user -->
           <div class="infor-user flex gap-6 justify-center items-center">
-            <div class="avtar-user w-[60px] h-[60px]">
-              <img src="../static/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
+            <div class="avtar-user w-[60px] h-[60px] hover:scale-125 transition-all duration-500 ease-in-out">
+              <img src="../../static/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
             </div>
-            <div>
-              <div class="detail-infor-user flex flex-col h-full relative">
-                <span class="font-Primary-bold text-[#25396F] text-xl">Mod Name</span>
-                <span class="font-Primary-bold text-[#7C8DB5] text-lg">mod@gmail.com</span>
-              </div>
-              <div
-                class="py-2 px-4 bg-slate-200 top-[100px] z-10 absolute w-40 rounded-md font-Primary-medium opacity-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                Logout
-              </div>
-            </div>
+              {% if request.session.auth %}
+                <div class="detail-infor-user flex flex-col h-full">
+                  <span class="font-Primary-bold text-[#25396F] text-xl font-bold">{{ request.session.auth.username }} </span>
+                  <span class="font-Primary-bold text-[#7C8DB5] text-lg font-semibold">{{ request.session.auth.email }}</span>
+                </div>
+              {% endif %}
           </div>
           <!-- End the information of the user -->
 
@@ -53,68 +50,113 @@
       </header>
       <!-- End the header -->
 
-      <!-- Page Content -->
+      <!-- Page content -->
       <div class="content flex my-6">
 
-        <!-- Side menu -->
+        <!-- Side menu section -->
         <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
 
           <!-- Dashboard button -->
           <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <button class="p-[15px]">
-              <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
-            </button>
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'homepage' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
           </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Dashboard</span>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
           <!-- End the dashboard button -->
 
-        </div>
-        <!-- End the side menu -->
+        {% if request.session.auth.permission != 'user' %}
+        <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'crawl' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
+          <!-- End the dashboard button -->
+        {% endif %}
 
+          <!-- Recent button -->
+          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'recent' %}" class="p-[15px]">
+              <img src="../../static/assets/images/Recent_Icon.svg">
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+          <!-- End the recent button -->
+
+          <!-- Favorites button -->
+          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'favorite' %}" class="p-[15px]">
+              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+          <!-- End the favorites button -->
+         {% if request.session.auth.permission == 'admin' %}
+            <!-- User management button -->
+          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'user' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+          <!-- End the user management button -->
+
+          <!-- Moderator management button -->
+          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'mod' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+          <!-- End the moderator management button -->
+            {% endif %}
+        </div>
+        <!-- End the side menu section -->
         <!-- Main content -->
         <div class="main-content w-full mx-10 flex flex-col justify-center items-center">
 
           <!-- Searchbar and group button section wrapper-->
           <div class="w-full flex justify-between items-center gap-5">
-
-            <!-- Searchbar section -->
-            <div class="searchbar w-3/4 justify-center items-center border-4 border-[#F0F0F0] rounded-xl p-3">
-              <form class="flex items-center">
-                <!-- Search button -->
-                <button type="submit" class="mr-4">
-                  <i class="fa fa-search text-2xl"></i>
-                </button>
-                <!-- End search button -->
-
-                <!--  Input field -->
-                <label for="username" class="w-full">
-                  <input type=" text" placeholder="Search Files..." name="search" id="search"
-                    class="outline-none text-lg font-Primary-medium placeholder:text-[#7C8DB5] placeholder:text-lg w-full">
-                </label>
-                <!-- End the input field -->
-
-              </form>
-            </div>
-            <!-- End the searchbar section -->
-
             <div class="group-button flex gap-5">
+                {% if request.session.auth.permission == "tiki mod" or request.session.auth.permission == 'admin' %}
               <!-- Crawl data button -->
-              <button type="button" class="add-new-button w-48 h-[60px] font-Primary-bold font-medium text-lg flex justify-center
+              <a href="{% url 'tikiCrawl' %}" type="button" class="add-new-button w-48 h-[60px] font-Primary-bold font-medium text-lg flex justify-center
               items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
               hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
               transition-all duration-500 ease-in-out uppercase">
-                Crawl Data
-              </button>
+                Crawl Tiki
+              </a>
               <!-- End Crawl data button -->
-
+                {% endif %}
+            {% if request.session.auth.permission == "shopee mod" or request.session.auth.permission == 'admin' %}
+                <!-- Crawl data button -->
+              <a href="{% url 'shopeeCrawl' %}" type="button" class="add-new-button w-48 h-[60px] font-Primary-bold font-medium text-lg flex justify-center
+              items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
+              hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
+              transition-all duration-500 ease-in-out uppercase">
+                Crawl Shopee
+              </a>
+              <!-- End Crawl data button -->
+                {% endif %}
               <!-- Training data button -->
-              <button type="button" class="add-new-button w-48 h-[60px] font-Primary-bold font-medium text-lg flex justify-center
+              <a href="{% url 'training' %}" type="button" class="add-new-button w-48 h-[60px] font-Primary-bold font-medium text-lg flex justify-center
               items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
               hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
               transition-all duration-500 ease-in-out uppercase">
                 Training Data
-              </button>
+              </a>
               <!-- End training data button -->
             </div>
           </div>
@@ -141,24 +183,24 @@
 
                 <!-- Table body-->
                 <tbody class="w-full">
-
+                {% for product in page_obj %}
                   <!-- Render table body here -->
                   <tr class="w-full flex justify-between items-center px-2 border-2 border-gray-300 my-4 rounded-lg
                   hover:border-red-400 transition-all duration-500 ease-in-out">
                     <td class="w-[60px] flex justify-center">
                       <div class="w-[50px] h-[50px] border border-gray-400 rounded-lg overflow-hidden">
-                        <img src="../src/assets/images/Mini_fridge.jpg" class="w-[50px] h-[50px]">
+                        <img src="{{product.images_link}}" class="w-[50px] h-[50px]">
                       </div>
                     </td>
                     <td class="w-[200px] h-full block font-Primary-medium text-lg truncate">
-                      Mini Refrigerator
+                        {{ product.product_name}}
                     </td>
                     <td class="w-[200px] h-full block font-Primary-medium text-lg truncate">
-                      shopee.vn/abc
+                        {{ product.shop}}.vn
                     </td>
                     <td
                       class="w-[100px] h-[80px] flex overflow-hidden justify-start items-center font-Primary-medium text-lg">
-                      180,000đ
+                        {{ product.price}}đ
                     </td>
                     <td class="w-[100px] flex justify-center">
                       <div class="group-button flex gap-5 text-xl">
@@ -172,7 +214,7 @@
                     </td>
                   </tr>
                   <!-- Render table body here -->
-
+                {% endfor %}
                 </tbody>
                 <!-- End table body -->
               </table>
@@ -241,38 +283,25 @@
             <!--Pagination section-->
             <nav class="page-navigation w-full justify-center flex mt-5">
               <ul class="pagination flex gap-2 justify-center items-center">
+                  {% if page_obj.has_previous %}
                 <li class="page-item text-2xl w-[35px] h-[35px]">
-                  <a class="page-link w-full h-full flex justify-end" href="#" aria-label="Next">
+                  <a class="page-link w-full h-full flex justify-end" href="?page={{ page_obj.previous_page_number }}" aria-label="Next">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                   </a>
                 </li>
-                <li class="page-item active">
-                  <a class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center"
-                    href="#">1</a>
-                </li>
-                <li
-                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li
-                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li
-                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
-                  <a class="page-link" href="#">4</a>
-                </li>
-                <li
-                  class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
-                  <a class="page-link" href="#">5</a>
-                </li>
+                   {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                    {% if page_obj.has_next %}
                 <li class="page-item text-2xl w-[35px] h-[35px]">
-                  <a class="page-link w-full h-full flex justify-start" href="#" aria-label="Next">
+                  <a class="page-link w-full h-full flex justify-start" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                   </a>
                 </li>
+              {% endif %}
               </ul>
             </nav>
             <!--End the pagination section-->
@@ -285,8 +314,6 @@
 
       </div>
       <!-- End the page content -->
-
-      <script type=" module" src="../src/javascript/main.js"></script>
 </body>
 
 </html>

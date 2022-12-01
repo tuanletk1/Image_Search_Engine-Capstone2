@@ -15,8 +15,9 @@ class User(models.Model):
   def toJson(self):
     data = '{"id": "' + str(self.id) + '", "username": "' + str(self.username) + '", "role": "' \
            + str(self.permission_set.all().values().get().get('permission')) + '", ' + \
-           '"email":"' + self.email + '", "avatar":"' + self.avatar + '"}'
+           '"email":"' + self.email + '", "avatar":"' + self.avatar + '", "perid": "'+str(self.permission_set.all().values().get().get('id'))+'"}'
     return json.loads(data)
+
 
   class Meta:
     db_table = 'users'

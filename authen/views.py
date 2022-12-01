@@ -10,7 +10,7 @@ from django.http import JsonResponse
 
 from . import forms
 from .models import User, Permission
-from product.models import Product
+from product.models import Product, ProductUser
 
 
 # Create your views here.
@@ -87,7 +87,7 @@ def homepage(request):
 
 
 def users(request):
-    users = User.objects.filter(~Q(permission__permission='admin') & ~Q(permission__permission__contains='mod'))
+    users = User.objects.filter(Q(permission__permission='user'))
     paginator = Paginator(users, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -98,12 +98,44 @@ def users(request):
     return HttpResponse(template.render(context, request))
 
 
+def mods(request):
+    mods = User.objects.filter(Q(permission__permission__contains='mod'))
+    paginator = Paginator(mods, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'page_obj': page_obj
+    }
+    template = loader.get_template('modmanagmentpage.html')
+    return HttpResponse(template.render(context, request))
+
+
 def update_role(request):
     if request.method == 'POST':
         user = get_object_or_404(User, id=request.POST['edit_id'])
         user.permission_set.set([request.POST['edit_role']])
         return JsonResponse({}, status=200)
     return JsonResponse({}, status=400)
+
+
+def remove_account(request):
+    if request.method == 'POST':
+        account = get_object_or_404(User, id=request.POST['remove_id'])
+        account.delete()
+        return JsonResponse({}, status=200)
+    return JsonResponse({}, status=400)
+
+
+def crawl(request):
+    products = Product.objects.all().order_by('ctime')
+    paginator = Paginator(products, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'page_obj': page_obj
+    }
+    template = loader.get_template('moddashboard.html')
+    return HttpResponse(template.render(context, request))
 
 
 def set_session(request, user):

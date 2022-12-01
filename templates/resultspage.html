@@ -70,60 +70,74 @@
         <div class="content flex my-6">
 
             <!-- Side menu section -->
-            <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
 
-                <!-- Dashboard button -->
-                <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
                     hover:scale-125 rounded-[10px] flex justify-center items-center">
-                    <button class="p-[15px]">
-                        <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
-                    </button>
-                </div>
-                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
-                <!-- End the dashboard button -->
-
-                <!-- Recent button -->
-                <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-                    <a href="{% url 'recent' %}" class="p-[15px]">
-                        <img src="../../static/assets/images/Recent_Icon.svg">
-                    </a>
-                </div>
-                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
-                <!-- End the recent button -->
-
-                <!-- Favorites button -->
-                <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-                    <a href="{% url 'favorite' %}" class="p-[15px]">
-                        <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
-                    </a>
-                </div>
-                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
-                <!-- End the favorites button -->
-                {% if request.session.auth.permission == 'admin' %}
-                    <!-- User management button -->
-                    <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+            <a href="{% url 'homepage' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
+          <!-- End the dashboard button -->
+            {% if request.session.auth.permission != 'user' %}
+        <!-- Dashboard button -->
+          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
                     hover:scale-125 rounded-[10px] flex justify-center items-center">
-                        <a href="{% url 'user' %}" class="p-[15px]">
-                            <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
-                        </a>
-                    </div>
-                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
-                    <!-- End the user management button -->
-
-                    <!-- Moderator management button -->
-                    <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+            <a href="{% url 'crawl' %}">
+              <button class="p-[15px]">
+                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+              </button>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
+          <!-- End the dashboard button -->
+        {% endif %}
+          <!-- Recent button -->
+          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
           hover:scale-125 rounded-[10px] flex justify-center items-center">
-                        <a href="" class="p-[15px]">
-                            <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
-                        </a>
-                    </div>
-                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
-                    <!-- End the moderator management button -->
-                {% endif %}
-            </div>
-            <!-- End the side menu section -->
+            <a href="{% url 'recent' %}" class="p-[15px]">
+              <img src="../../static/assets/images/Recent_Icon.svg">
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+          <!-- End the recent button -->
+
+          <!-- Favorites button -->
+          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'favorite' %}" class="p-[15px]">
+              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+          <!-- End the favorites button -->
+         {% if request.session.auth.permission == 'admin' %}
+            <!-- User management button -->
+          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+                    hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'user' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+          <!-- End the user management button -->
+
+          <!-- Moderator management button -->
+          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          hover:scale-125 rounded-[10px] flex justify-center items-center">
+            <a href="{% url 'mod' %}" class="p-[15px]">
+              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+            </a>
+          </div>
+          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+          <!-- End the moderator management button -->
+            {% endif %}
+        </div>
+        <!-- End the side menu section -->
 
 
             <!-- Main content -->
