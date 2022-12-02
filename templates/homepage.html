@@ -3,325 +3,194 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-  <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>Image Search Engine</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Image Search Engine</title>
 </head>
 
 <body>
-  <div class="wrapper w-[1500px] m-auto p-[25px] bg-[#F6FAFF] flex font-Primary-regular">
+<div class="wrapper max-w-[1500px] m-auto bg-[#F6FAFF] flex font-Primary-regular">
     <!-- Container -->
-    <div class="container bg-white">
+    <div class="container bg-white m-auto">
 
-      <!-- Header -->
-      <header class="border-b-4 border-[#F6F6F6]">
+        <!-- Header -->
+        <header class="header border-b-4 border-[#F6F6F6]">
 
-        <!-- Navbar -->
-        <nav class="navbar flex justify-between items-center px-[50px]">
+            <!-- Navbar -->
+            <nav class="navbar flex justify-between items-center w-full pl-24 pr-10">
 
-          <!-- The logo of page -->
-          <h1 class="logo pt-4">
-            <a href="{% url 'homepage' %}">
-              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
-            </a>
-          </h1>
-          <!-- End the logo of page -->
+                <!-- The logo of page -->
+                <h1 class="logo py-3">
+                    <a href="{% url 'homepage' %}" class="w-full h-full">
+                        {#              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine" class="w-full h-full">#}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/1200px-Google_Chrome_icon_%28February_2022%29.svg.png"
+                             alt="The logo of Image Search Engine " class="w-20 h-20">
+                    </a>
+                </h1>
+                <!-- End the logo of page -->
 
-          <!-- The information of the user -->
-          <div class="infor-user flex gap-6 justify-center items-center">
-          <div class="py-2 px-4 bg-slate-200 top-[100px] z-10 absolute w-40 rounded-md font-Primary-medium opacity-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-           Logout
-          </div>
-            <div class="avtar-user w-[60px] h-[60px] hover:scale-125 transition-all duration-500 ease-in-out">
-              <img src="../../static/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
-            </div>
-              {% if request.session.auth %}
-                <div class="detail-infor-user flex flex-col h-full">
-                  <span class="font-Primary-bold text-[#25396F] text-xl font-bold">{{ request.session.auth.username }} </span>
-                  <span class="font-Primary-bold text-[#7C8DB5] text-lg font-semibold">{{ request.session.auth.email }}</span>
+                <!-- The information of the user -->
+                <div class="infor-user flex gap-3 justify-center items-center group cursor-pointer">
+                    <div class="avtar-user w-[60px] h-[60px]">
+                        <img src="../../static/assets/images/cat.jpg" alt="The Avatar"
+                             class="w-[60px] h-[60px] rounded-full">
+                    </div>
+                    {% if request.session.auth %}
+                        <div class="detail-infor-user flex flex-col h-full relative w-[185px] p-2 overflow-hidden">
+                            <span class="font-Primary-bold text-[#25396F] text-xl truncate">{{ request.session.auth.username }} </span>
+                            <span class="font-Primary-bold text-[#25396F] text-xl truncate">{{ request.session.auth.email }}</span>
+                            <div
+                                    class="w-full right-0 translate-x-full group-hover:translate-x-0 rounded-l-xl py-2 px-4 bg-slate-100 z-10 absolute border-2 border-[#51459E] border-dashed transition-all duration-500 ease-in-out">
+                                <button onclick="{console.log('logout')}"
+                                        class="w-full flex justify-between items-center font-Primary-bold text-lg pl-2 text-blue-700 uppercase">
+                                    Sign
+                                    out
+                                    <i class="fa-solid fa-right-from-bracket border-2 border-blue-500 p-2 text-blue-500"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-              {% endif %}
-          </div>
-          <!-- End the information of the user -->
+                <!-- End the information of the user -->
 
-        </nav>
-        <!-- End the navbar -->
+            </nav>
+            <!-- End the navbar -->
 
-      </header>
-      <!-- End the header -->
+        </header>
+        <!-- End the header -->
 
-      <!-- Page content -->
-      <div class="content flex my-6">
+        <!-- Page content -->
+        <div class="content flex my-4">
 
-        <!-- Side menu section -->
-        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+            <!-- Side menu section -->
+            <div class="side-menu flex flex-col w-1/4 h-full justify-center items-center border-r-2 border-[#F6F6F6]">
 
-          <!-- Dashboard button -->
-          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-                    hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'homepage' %}">
-              <button class="p-[15px]">
-                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
-              </button>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
-          <!-- End the dashboard button -->
-        {% if request.session.auth.permission != 'user' %}
-        <!-- Dashboard button -->
-          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-                    hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'crawl' %}">
-              <button class="p-[15px]">
-                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
-              </button>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
-          <!-- End the dashboard button -->
-        {% endif %}
-          <!-- Recent button -->
-          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'recent' %}" class="p-[15px]">
-              <img src="../../static/assets/images/Recent_Icon.svg">
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
-          <!-- End the recent button -->
+                <!-- Dashboard button -->
+                <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                    <a href="{% url 'homepage' %}" class="p-[15px]">
+                        <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
+                    </a>
+                </div>
+                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
+                <!-- End the dashboard button -->
 
-          <!-- Favorites button -->
-          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'favorite' %}" class="p-[15px]">
-              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
-          <!-- End the favorites button -->
-         {% if request.session.auth.permission == 'admin' %}
-            <!-- User management button -->
-          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-                    hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'user' %}" class="p-[15px]">
-              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
-          <!-- End the user management button -->
+                {% if request.session.auth.permission == 'admin' %}
+                    <!-- User management button -->
+                    <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                        <a href="{% url 'user' %}" class="p-[15px]">
+                            <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+                        </a>
+                    </div>
+                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+                    <!-- End the user management button -->
 
-          <!-- Moderator management button -->
-          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'mod' %}" class="p-[15px]">
-              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
-          <!-- End the moderator management button -->
-            {% endif %}
-        </div>
-        <!-- End the side menu section -->
+                    <!-- Moderator management button -->
+                    <div class="moderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                        <a href="{% url 'mod' %}" class="p-[15px]">
+                            <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+                        </a>
+                    </div>
+                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+                    <!-- End the moderator management button -->
+                {% endif %}
 
-        <!-- Main content -->
-        <div class="main-content w-full mx-10">
+                <!-- Crawl Data button -->
+                {% if request.session.auth.permission != 'user' %}
+                    <div class="crawl-data-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                        <a href="{% url 'crawl' %}" class="p-[15px]">
+                            <i class="fa-solid fa-database text-xl text-[#51459E]"></i>
+                        </a>
+                    </div>
+                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
+                    <!-- End the dashboard button -->
+                {% endif %}
 
-          <!-- Upload image section -->
-            <form action="{% url 'search' %}" method="post" enctype="multipart/form-data" onsubmit="document.getElementById('button_submit').disabled=true;">
-                {% csrf_token %}
-                <input type="file" hidden name="img_file" id="image" onchange="form.submit()">
-              <section class="upload-image-section bg-[#F6F5FF] flex rounded-xl py-[50px]
+                <!-- Recent button -->
+                <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                    <a href="{% url 'recent' %}" class="p-[15px]">
+                        <i class="fa-solid fa-clock text-xl text-[#51459E]"></i>
+                    </a>
+                </div>
+                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+                <!-- End the recent button -->
+
+                <!-- Favorites button -->
+                <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                    <a href="{% url 'favorite' %}" class="p-[15px]">
+                        <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+                    </a>
+                </div>
+                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+                <!-- End the favorites button -->
+
+            </div>
+            <!-- End the side menu section -->
+
+            <!-- Main content -->
+            <div class="main-content w-full mx-10">
+
+                <!-- Upload image section -->
+                <form action="{% url 'search' %}" method="post" enctype="multipart/form-data"
+                      onsubmit="document.getElementById('button_submit').disabled=true;">
+                    {% csrf_token %}
+                    <input type="file" hidden name="img_file" id="image" onchange="form.submit()">
+                    <section class="upload-image-section bg-[#F6F5FF] flex rounded-xl py-[50px]
               justify-center items-center drop-shadow-lg">
-                <div class="flex flex-col items-center text-center">
-                  <h2 class="label text-[#51459E] font-Primary-bold font-bold text-3xl">Image Search Engine</h2>
-                  <p class="guide my-[28px] text-[#7987A5] font-Primary-bold font-semibold text-xl">
-                    Welcome to ISE's product search engine.<br>
-                    To start your search, please click the Upload Image button below.
-                  </p>
-                  <button onclick="document.getElementById('image').click()" type="button" class="w-[200px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
+                        <div class="flex flex-col items-center text-center">
+                            <h2 class="label text-[#51459E] font-Primary-bold font-bold text-3xl">Image Search
+                                Engine</h2>
+                            <p class="guide my-[28px] text-[#7987A5] font-Primary-bold font-semibold text-xl">
+                                Welcome to ISE's product search engine.<br>
+                                To start your search, please click the Upload Image button below.
+                            </p>
+                            <button onclick="document.getElementById('image').click()" type="button" class="w-[200px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
                   items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]
                   hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
                   transition-all duration-500 ease-in-out uppercase"
-                  id="button_submit"
-                  >upload image</button>
-                </div>
-              </section>
-            </form>
-          <!-- End the upload section -->
+                                    id="button_submit"
+                            >upload image
+                            </button>
+                        </div>
+                    </section>
+                </form>
+                <!-- End the upload section -->
 
-          <!-- Display image section wrapper -->
-          <section class="display-image-section flex flex-wrap mt-10 mb-5 w-full justify-between drop-shadow-lg">
-            {% for product in products %}
-            <!-- Display image section -->
-            <div class="w-[250px] flex flex-col justify-center items-center relative mb-6 transition-all duration-300 ease-in-out
+                <!-- Display image section wrapper -->
+                <section class="display-image-section flex flex-wrap mt-10 mb-5 w-full justify-between drop-shadow-lg">
+                    {% for product in products %}
+                        <!-- Display image section -->
+                        <div class="w-[250px] flex flex-col justify-center items-center relative mb-6 transition-all duration-300 ease-in-out
             hover:scale-105 rounded-2xl overflow-hidden border-2 border-gray-300">
-                <a href="{% url 'to_product' id=product.id %}"  target="_blank">
-              <img src="{{ product.images_link }}" class="w-[250px] rounded-2xl">
-              <i class="fa-solid fa-ellipsis-vertical text-4xl flex
-                right-2 px-1 absolute z-10 top-6 text-[#3734A9] bg-white rounded-lg"></i>
-                </a>
-            </div>
-            <!-- End the display image section -->
-            {% endfor %}
-          </section>
-          <!-- End the display image section wrapper -->
+                            <a href="{% url 'to_product' id=product.id %}" target="_blank">
+                                <img src="{{ product.images_link }}" class="w-[250px] rounded-2xl">
+                                <i class="fa-solid fa-ellipsis-vertical text-4xl flex
+                right-2 px-1 absolute z-10 top-2 text-[#3734A9] border border-[#3734A9] bg-white rounded-lg"></i>
+                            </a>
+                        </div>
+                        <!-- End the display image section -->
+                    {% endfor %}
+                </section>
+                <!-- End the display image section wrapper -->
 
-          <!-- Recently uploaded and Favorite products section -->
-{#          <div class="my-[30px] w-full flex justify-between">#}
-{##}
-{#            <!-- Recently uploaded section -->#}
-{#            <div class="recently-uploaded-section w-[40%]">#}
-{##}
-{#              <!-- Recently uploaded section title -->#}
-{#              <h2 class="font-Primary-medium font-bold italic text-2xl mt-0 mb-5 mx-2 text-[#505887]">Recent Uploaded#}
-{#              </h2>#}
-{#              <!-- End the recently uploaded section title -->#}
-{##}
-{#              <!-- Detail recently uploaded section -->#}
-{#              <div class="detail-recently-uploaded-section px-5 border-4 rounded-xl border-white#}
-{#                transition-all duration-300 ease-in-out hover:bg-[#eaebee] py-2 my-4">#}
-{#                <div class="flex w-full justify-between">#}
-{#                  <div class="product-image border-4 border-[#DEE1E6] rounded-xl">#}
-{#                    <img src="/src/assets/images/iphone14_pro_max.jpg" class="w-[44px] h-[44px]">#}
-{#                  </div>#}
-{#                  <div class="product-infor w-1/2 flex flex-col">#}
-{#                    <span class="name-product font-Primary-bold font-semibold text-[#505887] text-xl">Image Test</span>#}
-{#                    <span class="time-upload font-Primary-medium text-[#718EBF] text-xl">4 Sep,#}
-{#                      10:23pm</span>#}
-{#                  </div>#}
-{#                  <span class="size-image font-Primary-bold font-semibold text-[#718EBF] text-xl">12 MB</span>#}
-{#                </div>#}
-{#              </div>#}
-{#              <!-- End the detail recently uploaded section -->#}
-{##}
-{#              <div class="detail-recently-uploaded-section px-5 border-4 rounded-xl border-white#}
-{#              transition-all duration-300 ease-in-out hover:bg-[#eaebee] py-2 my-4">#}
-{#                <div class="flex w-full justify-between">#}
-{#                  <div class="product-image border-4 border-[#DEE1E6] rounded-xl">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[44px] h-[44px]">#}
-{#                  </div>#}
-{#                  <div class="product-infor w-1/2 flex flex-col">#}
-{#                    <span class="name-product font-Primary-bold font-semibold text-[#505887] text-xl">Image Test</span>#}
-{#                    <span class="time-upload font-Primary-medium text-[#718EBF] text-xl">4 Sep,#}
-{#                      10:23pm</span>#}
-{#                  </div>#}
-{#                  <span class="size-image font-Primary-bold font-semibold text-[#718EBF] text-xl">12 MB</span>#}
-{#                </div>#}
-{#              </div>#}
-{#              <div class="detail-recently-uploaded-section px-5 border-4 rounded-xl border-white#}
-{#            transition-all duration-300 ease-in-out hover:bg-[#eaebee] py-2 my-4">#}
-{#                <div class="flex w-full justify-between">#}
-{#                  <div class="product-image border-4 border-[#DEE1E6] rounded-xl">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[44px] h-[44px]">#}
-{#                  </div>#}
-{#                  <div class="product-infor w-1/2 flex flex-col">#}
-{#                    <span class="name-product font-Primary-bold font-semibold text-[#505887] text-xl">Image Test</span>#}
-{#                    <span class="time-upload font-Primary-medium text-[#718EBF] text-xl">4 Sep,#}
-{#                      10:23pm</span>#}
-{#                  </div>#}
-{#                  <span class="size-image font-Primary-bold font-semibold text-[#718EBF] text-xl">12 MB</span>#}
-{#                </div>#}
-{#              </div>#}
-{#              <div class="detail-recently-uploaded-section px-5 border-4 rounded-xl border-white transition-all duration-300 ease-in-out hover:bg-[#eaebee] py-2 my-4">#}
-{#                <div class="flex w-full justify-between">#}
-{#                  <div class="product-image border-4 border-[#DEE1E6] rounded-xl">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[44px] h-[44px]">#}
-{#                  </div>#}
-{#                  <div class="product-infor w-1/2 flex flex-col">#}
-{#                    <span class="name-product font-Primary-bold font-semibold text-[#505887] text-xl">Image Test</span>#}
-{#                    <span class="time-upload font-Primary-medium text-[#718EBF] text-xl">4 Sep,#}
-{#                      10:23pm</span>#}
-{#                  </div>#}
-{#                  <span class="size-image font-Primary-bold font-semibold text-[#718EBF] text-xl">12 MB</span>#}
-{#                </div>#}
-{#              </div>#}
-{#              <div class="detail-recently-uploaded-section px-5 border-4 rounded-xl border-white transition-all duration-300 ease-in-out hover:bg-[#eaebee] py-2 my-4">#}
-{#                <div class="flex w-full justify-between">#}
-{#                  <div class="product-image border-4 border-[#DEE1E6] rounded-xl">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[44px] h-[44px]">#}
-{#                  </div>#}
-{#                  <div class="product-infor w-1/2 flex flex-col">#}
-{#                    <span class="name-product font-Primary-bold font-semibold text-[#505887] text-xl">Image Test</span>#}
-{#                    <span class="time-upload font-Primary-medium text-[#718EBF] text-xl">4 Sep,#}
-{#                      10:23pm</span>#}
-{#                  </div>#}
-{#                  <span class="size-image font-Primary-bold font-semibold text-[#718EBF] text-xl">12 MB</span>#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-{#            <!-- End the recent section -->#}
-{##}
-{#            <!-- Favorite products section -->#}
-{#            <div class="favorite-products-section w-[60%] h-full flex flex-col items-end">#}
-{##}
-{#              <!-- Favorite products section title-->#}
-{#              <div class="favorite-product-title flex w-1/2 justify-between">#}
-{#                <h2 class="font-Primary-medium font-bold italic text-2xl mt-0 mb-5 mx-2 text-[#505887]">#}
-{#                  Favorite Products#}
-{#                </h2>#}
-{#              </div>#}
-{#              <!-- End the favorite products section title-->#}
-{##}
-{#              <!-- Favorite products detail section -->#}
-{#              <div class="favorite-product-detail w-full flex flex-col items-end">#}
-{##}
-{#                <!-- Favorite products image wrapper section -->#}
-{#                <div class="grid grid-cols-2 gap-5 w-1/2">#}
-{##}
-{#                  <!-- Favorite products image section -->#}
-{#                  <div class="favorite-product-image flex justify-center rounded-xl overflow-hidden#}
-{#                  w-full transition-all duration-300 ease-in-out hover:scale-110">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[250px]">#}
-{#                  </div>#}
-{#                  <!-- End the favorite products image -->#}
-{##}
-{#                  <div class="favorite-product-image flex justify-center rounded-xl overflow-hidden#}
-{#                  w-full transition-all duration-300 ease-in-out hover:scale-110">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[250px]">#}
-{#                  </div>#}
-{#                  <div class="favorite-product-image flex justify-center rounded-xl overflow-hidden#}
-{#                  w-full transition-all duration-300 ease-in-out hover:scale-110">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[250px]">#}
-{#                  </div>#}
-{#                  <div class="favorite-product-image flex justify-center rounded-xl overflow-hidden#}
-{#                  w-full transition-all duration-300 ease-in-out hover:scale-110">#}
-{#                    <img src="../../static/assets/images/iphone14_pro_max.jpg" class="w-[250px]">#}
-{#                  </div>#}
-{#                </div>#}
-{#                <!-- Favorite products image wrapper section -->#}
-{##}
-{#                <!-- See more button -->#}
-{#                <div class="w-1/2 flex my-5 justify-center">#}
-{#                  <button type="button" class="w-[200px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center#}
-{#                  items-center border-2 bg-[#51459E] p-5 rounded-[10px] text-[#DEE1E6]#}
-{#                  hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]#}
-{#                  transition-all duration-500 ease-in-out uppercase">See more#}
-{#                  </button>#}
-{#                </div>#}
-{#                <!-- End the See more button -->#}
-{##}
-{#              </div>#}
-{#              <!-- End the favorite products detail section -->#}
-{##}
-{#            </div>#}
-{#            <!-- End the favorite products section -->#}
-{##}
-{#          </div>#}
-          <!-- End the recently uploaded and Favorite products section -->
+            </div>
+            <!-- End the main content section -->
 
         </div>
-        <!-- End the main content section -->
-
-      </div>
-      <!-- End the page content -->
+        <!-- End the page content -->
 
     </div>
     <!-- End the container -->
 
-  </div>
+</div>
 
 </body>
 

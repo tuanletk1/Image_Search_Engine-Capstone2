@@ -3,249 +3,281 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-  <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>Image Search Engine</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Image Search Engine</title>
 </head>
 
 <body>
-  <div class="wrapper w-[1500px] m-auto p-[25px] bg-[#F6FAFF] flex font-Primary-regular">
+<div class="wrapper max-w-[1500px] m-auto bg-[#F6FAFF] flex font-Primary-regular">
     <!-- Container -->
-    <div class="container bg-white">
+    <div class="container bg-white m-auto">
 
-      <!-- Header -->
-      <header class="border-b-4 border-[#F6F6F6]">
+        <!-- Header -->
+        <header class="header border-b-4 border-[#F6F6F6]">
 
-        <!-- Navbar -->
-        <nav class="navbar flex justify-between items-center px-[50px]">
+            <!-- Navbar -->
+            <nav class="navbar flex justify-between items-center w-full pl-24 pr-10">
 
-          <!-- The logo of page -->
-          <h1 class="logo pt-4">
-            <a href="{% url 'homepage' %}">
-              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine ">
-            </a>
-          </h1>
-          <!-- End the logo of page -->
+                <!-- The logo of page -->
+                <h1 class="logo py-3">
+                    <a href="{% url 'homepage' %}">
+                        <img src="../../static/assets/images/Logo_ISE_fullHD.svg"
+                             alt="The logo of Image Search Engine ">
+                    </a>
+                </h1>
+                <!-- End the logo of page -->
 
-          <!-- The information of the user -->
-          <div class="infor-user flex gap-6 justify-center items-center">
-            <div class="avtar-user w-[60px] h-[60px] hover:scale-125 transition-all duration-500 ease-in-out">
-              <img src="../../static/assets/images/cat.jpg" alt="The Avatar" class="w-[60px] h-[60px] rounded-full">
-            </div>
-              {% if request.session.auth %}
-                <div class="detail-infor-user flex flex-col h-full">
-                  <span class="font-Primary-bold text-[#25396F] text-xl font-bold">{{ request.session.auth.username }} </span>
-                  <span class="font-Primary-bold text-[#7C8DB5] text-lg font-semibold">{{ request.session.auth.email }}</span>
+                <!-- The information of the user -->
+                <div class="infor-user flex gap-3 justify-center items-center group cursor-pointer">
+                    <div class="avtar-user w-[60px] h-[60px]">
+                        <img src="../../static/assets/images/cat.jpg" alt="The Avatar"
+                             class="w-[60px] h-[60px] rounded-full">
+                    </div>
+                    {% if request.session.auth %}
+                        <div class="detail-infor-user flex flex-col h-full relative w-[185px] p-2 overflow-hidden">
+                            <span class="font-Primary-bold text-[#25396F] text-xl truncate">{{ request.session.auth.username }} </span>
+                            <span class="font-Primary-bold text-[#25396F] text-xl truncate">{{ request.session.auth.email }}</span>
+                            <div
+                                    class="w-full right-0 translate-x-full group-hover:translate-x-0 rounded-l-xl py-2 px-4 bg-slate-100 z-10 absolute border-2 border-[#51459E] border-dashed transition-all duration-500 ease-in-out">
+                                <button onclick="{console.log('logout')}"
+                                        class="w-full flex justify-between items-center font-Primary-bold text-lg pl-2 text-blue-700 uppercase">
+                                    Sign
+                                    out
+                                    <i class="fa-solid fa-right-from-bracket border-2 border-blue-500 p-2 text-blue-500"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-              {% endif %}
-          </div>
-          <!-- End the information of the user -->
+                <!-- End the information of the user -->
 
-        </nav>
-        <!-- End the navbar -->
+            </nav>
+            <!-- End the navbar -->
 
-      </header>
-      <!-- End the header -->
+        </header>
+        <!-- End the header -->
 
-      <!-- Page content -->
-      <div class="content flex my-6">
+        <!-- Page content -->
+        <div class="content flex my-6">
 
-       <!-- Side menu section -->
-        <div class="side-menu flex flex-col w-[22%] h-full justify-center items-center border-r-2 border-[#F6F6F6]">
+            <!-- Side menu section -->
+            <div class="side-menu flex flex-col w-1/4 h-full justify-center items-center border-r-2 border-[#F6F6F6]">
 
-          <!-- Dashboard button -->
-          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-                    hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'homepage' %}">
-              <button class="p-[15px]">
-                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
-              </button>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
-          <!-- End the dashboard button -->
-            {% if request.session.auth.permission != 'user' %}
-        <!-- Dashboard button -->
-          <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-                    hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'crawl' %}">
-              <button class="p-[15px]">
-                <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
-              </button>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
-          <!-- End the dashboard button -->
-        {% endif %}
-          <!-- Recent button -->
-          <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'recent' %}" class="p-[15px]">
-              <img src="../../static/assets/images/Recent_Icon.svg">
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
-          <!-- End the recent button -->
-
-          <!-- Favorites button -->
-          <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'favorite' %}" class="p-[15px]">
-              <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
-          <!-- End the favorites button -->
-         {% if request.session.auth.permission == 'admin' %}
-            <!-- User management button -->
-          <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-                    hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'user' %}" class="p-[15px]">
-              <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
-          <!-- End the user management button -->
-
-          <!-- Moderator management button -->
-          <div class="morderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
-          hover:scale-125 rounded-[10px] flex justify-center items-center">
-            <a href="{% url 'mod' %}" class="p-[15px]">
-              <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
-            </a>
-          </div>
-          <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
-          <!-- End the moderator management button -->
-            {% endif %}
-        </div>
-        <!-- End the side menu section -->
-
-
-        <!-- Main content -->
-        <div class="main-content w-full mx-10 flex flex-col justify-center items-center">
-
-          <!-- Searchbar section -->
-          <section class="searchbar w-[60%] justify-center items-center border-4 border-[#F0F0F0] rounded-xl px-6 py-4">
-            <form class="flex items-center">
-              <!-- Search button -->
-              <button type="submit" class="mr-3">
-                <i class="fa fa-search text-3xl"></i>
-              </button>
-              <!-- End search button -->
-
-              <!--  Input field -->
-              <label for="username" class="w-full">
-                <input type=" text" placeholder="Search Files..." name="search" id="search"
-                  class="outline-none text-lg font-Primary-medium placeholder:text-[#7C8DB5] placeholder:text-lg">
-              </label>
-              <!-- End the input field -->
-
-            </form>
-          </section>
-          <!-- End the searchbar section -->
-
-          <!-- Display image section wrapper-->
-          <section class="display-image-section mt-10 mb-5 w-full drop-shadow-sm">
-
-            <!-- Display card section -->
-            <div class="render-product-card flex flex-wrap gap-8 justify-start">
-                {% for product in products %}
-              <!-- Product card -->
-              <div class="w-[250px] product-card mb-4 transition-all duration-300 ease-in-out
-              hover:scale-105 rounded-2xl overflow-hidden border-2 border-[#51459E]"
-              id="product-{{ product.id }}">
-
-                <!-- Product image card -->
-                <div
-                  class="w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 overflow-hidden relative">
-                  <a href="{% url 'to_product' id=product.id %}"  target="_blank">
-                    <img src="{{product.images_link}}" class="w-full">
-                        </a>
-                  <div
-                    class="w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
-                    <button class="link-btn" id="link-{{ product.id }}">
-                      <i
-                      class="fa-solid fa-heart text-3xl text-gray-400 hover:text-red-600 transition-all duration-500 ease-in-out"></i>
-                  </button>
-                  </div>
-                  <div
-                    class="w-full flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
-                    <span
-                      class="text-xl font-Primary-bold text-red-600 transition-all duration-500 ease-in-out">{{ product.shop }}.vn</span>
-                  </div>
-                </div>
-                <!-- End the product image card -->
-
-                <!-- Product card detail -->
-                <div class="product-card-detail flex w-full justify-between px-2 mb-2">
-
-                  <!-- Product card infor -->
-                  <div class="product-card-infor w-10/12 flex flex-col">
-                      <a href="{% url 'to_product' id=product.id %}"  target="_blank">
-                    <span class="product-card-name w-full h-full block font-Primary-medium text-lg truncate text-[#51459E]">{{ product.product_name}}</span>
-                      </a>
-                          <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price}}đ</span>
-                  </div>
-                  <!-- Product card infor -->
-
-                 <a href="{% url 'to_product' id=product.id %}"  target="_blank">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
+                <!-- Dashboard button -->
+                <div class="dashboard-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                    <a href="{% url 'homepage' %}" class="p-[15px]">
+                        <i class="fa-solid fa-sliders text-xl text-[#51459E]"></i>
                     </a>
                 </div>
-                <!-- End the product card detail -->
+                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Home</span>
+                <!-- End the dashboard button -->
+                {% if request.session.auth.permission == 'admin' %}
 
-              </div>
-              <!-- End the product card -->
-                {% endfor %}
+                    <!-- User management button -->
+                    <div class="user-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                        <a href="{% url 'user' %}" class="p-[15px]">
+                            <i class="fa-solid fa-user-large text-xl text-[#51459E]"></i>
+                        </a>
+                    </div>
+                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">User</span>
+                    <!-- End the user management button -->
+
+                    <!-- Moderator management button -->
+                    <div class="moderator-management-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                        <a href="{% url 'mod' %}" class="p-[15px]">
+                            <i class="fa-solid fa-user-shield text-xl text-[#51459E]"></i>
+                        </a>
+                    </div>
+                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Moderator</span>
+                    <!-- End the moderator management button -->
+                {% endif %}
+
+                <!-- Crawl Data button -->
+                {% if request.session.auth.permission != 'user' %}
+                    <div class="crawl-data-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                        <a href="{% url 'crawl' %}" class="p-[15px]">
+                            <i class="fa-solid fa-database text-xl text-[#51459E]"></i>
+                        </a>
+                    </div>
+                    <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Crawl Data</span>
+                    <!-- End the dashboard button -->
+                {% endif %}
+
+                <!-- Recent button -->
+                <div class="recent-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                    <a href="{% url 'recent' %}" class="p-[15px]">
+                        <i class="fa-solid fa-clock text-xl text-[#51459E]"></i>
+                    </a>
+                </div>
+                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Recent</span>
+                <!-- End the recent button -->
+
+                <!-- Favorites button -->
+                <div class="favorites-button w-[50px] h-[50px] bg-[#ECEFF7] transition-all duration-300 ease-in-out
+          border-2 hover:border-[#51459E] hover:scale-125 rounded-[10px] flex justify-center items-center">
+                    <a href="{% url 'favorite' %}" class="p-[15px]">
+                        <i class="fa-solid fa-heart text-xl text-[#51459E]"></i>
+                    </a>
+                </div>
+                <span class="m-[15px] font-Primary-bold font-semibold text-[#1C295D]">Favorites</span>
+                <!-- End the favorites button -->
+
             </div>
-            <!-- End the display card section -->
+            <!-- End the side menu section -->
 
-            <!--Pagination section-->
-            <nav class="page-navigation w-full justify-center flex mt-5">
-              <ul class="pagination flex gap-2 justify-center items-center">
-                  {% if products.has_previous %}
-                <li class="page-item text-2xl w-[35px] h-[35px]">
-                  <a class="page-link w-full h-full flex justify-end" href="?page={{ products.previous_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-                   {% endif %}
-                <span class="current">
-                    Page {{ products.number }} of {{ products.paginator.num_pages }}.
-                </span>
-                    {% if products.has_next %}
-                <li class="page-item text-2xl w-[35px] h-[35px]">
-                  <a class="page-link w-full h-full flex justify-start" href="?page={{ products.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              {% endif %}
-              </ul>
-            </nav>
-            <!--End the pagination section-->
+            <!-- Main content -->
+            <div class="main-content w-full h-full mx-10 flex flex-col justify-center items-center">
 
-          </section>
-          <!-- End the display image section wrapper-->
+                <!-- Display image section wrapper-->
+                <section class="display-image-section mt-10 mb-5 w-full drop-shadow-sm">
+
+                    <!-- Display card section -->
+                    <div class="render-product-card flex flex-wrap gap-8 justify-start">
+                        {% for product in products %}
+
+                            <!-- Product card -->
+                            <div id="product-card-{{ product.id }}-wrapper">
+                                <div class="product-card rounded-2xl overflow-hidden border-2 border-[#51459E]"
+                                     id="product-{{ product.id }}">
+
+                                    <!-- Product image card -->
+                                    <div
+                                            class="group w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 relative">
+                                        <div>
+                                            <img src="{{ product.images_link }}" class="w-full">
+                                            <button id="link-{{ product.id }}"
+                                                    class="link-btn z-40 w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
+                                                <i
+                                                        class="fa-solid fa-heart text-3xl text-gray-400 hover:text-red-600 transition-all duration-500 ease-in-out"></i>
+                                            </button>
+                                        </div>
+                                        <div
+                                                class="overlay-content px-2 pt-12 align-middle items-center bg-slate-100 absolute w-full h-[330px] top-0 z-10 duration-700 ease-in-out translate-x-full group-hover:translate-x-0">
+                      <span
+                              class="absolute text-base uppercase w-[190px] h-[42px] font-Primary-bold py-2 text-red-500 ml-2 top-0 left-0 border-b-2 border-red-500 border-dashed">More
+                        information</span>
+                                            <p class="line-clamp-5 mb-2 text-base font-Primary-bold text-[#51459E] w-full">{{ product.product_name }}</p>
+                                            <p
+                                                    class="flex w-full pt-2 justify-between font-Primary-bold text-base text-red-500 border-t-2 border-red-500 border-dashed ">
+                                                Likes:
+                                                <span class="text-[#51459E]">3450 <i
+                                                        class="fa-regular fa-thumbs-up text-blue-500"></i></span>
+                                            </p>
+                                            <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
+                                                Discount: <span
+                                                    class="text-[#51459E]">20
+                          <i class="fa-solid fa-percent"></i></span>
+                                            </p>
+                                            <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
+                                                Quantity Sold:
+                                                <span class="text-[#51459E]">255</span>
+                                            </p>
+                                            <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
+                                                Review Count:
+                                                <span class="text-[#51459E]">4/5 <i
+                                                        class="fa-solid fa-star text-yellow-500"></i></span>
+                                            </p>
+                                        </div>
+                                        <div
+                                                class="w-[250px] flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
+                      <span
+                              class="w-full h-full px-2 block text-center truncate text-xl font-Primary-bold text-red-600 transition-all duration-500 ease-in-out cursor-pointer">Shopee.vn</span>
+                                        </div>
+
+                                    </div>
+                                    <!-- End the product image card -->
+
+                                    <!-- Product card detail -->
+                                    <div class="product-card-detail flex w-[250px] justify-between px-2 mb-2">
+
+                                        <!-- Product card infor -->
+                                        <div class="product-card-infor w-10/12 flex flex-col">
+                                            <a href="{% url 'to_product' id=product.id %}" target="_blank">
+                        <span
+                                class="product-card-name w-full h-full block font-Primary-medium text-lg truncate text-[#51459E]">{{ product.product_name }}</span>
+                                            </a>
+                                            <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price }}đ</span>
+                                        </div>
+                                        <!-- End the product card infor -->
+
+                                        <a href="{% url 'to_product' id=product.id %}" target="_blank">
+                                            <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
+                                        </a>
+                                    </div>
+                                    <!-- End the product card detail -->
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <!-- End the product card -->
+
+                    </div>
+                    <!-- Display card section -->
+
+                    <!--Pagination section-->
+                    <nav class="page-navigation w-full justify-center flex mt-5">
+                        <ul class="pagination flex gap-2 justify-center items-center">
+                            <li class="page-item text-2xl w-[35px] h-[35px]">
+                                <a class="page-link w-full h-full flex justify-end" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center"
+                                   href="#">1</a>
+                            </li>
+                            <li
+                                    class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li
+                                    class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li
+                                    class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                                <a class="page-link" href="#">4</a>
+                            </li>
+                            <li
+                                    class="page-item hover:border-4 hover:border-red-400 transition-all duration-200 ease-in-out font-Primary-medium w-[40px] h-[40px] text-lg flex justify-center items-center">
+                                <a class="page-link" href="#">5</a>
+                            </li>
+                            <li class="page-item text-2xl w-[35px] h-[35px]">
+                                <a class="page-link w-full h-full flex justify-start" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!--End the pagination section-->
+
+                </section>
+                <!-- End the display image section wrapper-->
+
+            </div>
+            <!-- End the main content section -->
 
         </div>
-        <!-- End the main content section -->
-
-      </div>
-      <!-- End the page content -->
+        <!-- End the page content -->
     </div>
-    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 {% block javascript %}
     <script>
-     $(document).on('click','.link-btn', function ()
-        {
+        $(document).on('click', '.link-btn', function () {
             var $this = $(this);
             var id = $this.attr('id').split('-')[1];
             var url = "{% url 'add_favorite' id=0 %}".replace('0', id);
@@ -254,18 +286,18 @@
                 url: url,
                 dataType: 'json',
                 statusCode: {
-                    200: function(res) {
+                    200: function (res) {
                         console.log(res);
                         alert('Add to favorite!')
                     },
-                400: function (res) {
-                        $('#product-'+id).remove()
-                    alert('Remove favorite!')
-                },
-                    403: function (){
+                    400: function (res) {
+                        $('#product-' + id).remove()
+                        alert('Remove favorite!')
+                    },
+                    403: function () {
                         alert('Please login to continue!')
                     }
-            }
+                }
             });
         });
     </script>
