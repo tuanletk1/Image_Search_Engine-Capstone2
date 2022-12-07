@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <title>Image Search Engine</title>
 </head>
 
@@ -19,7 +20,7 @@
         <!-- The overview section -->
         <div class="overview w-1/2 h-full pt-20 flex flex-col justify-start items-center">
             <span class="font-Primary-bold text-2xl text-white">NEW HERE ?</span>
-            <p w class="w-[60%] mt-3 mb-7 flex text-center font-Primary-bold text-lg tracking-wider text-white">
+            <p class="w-[60%] mt-3 mb-7 flex text-center font-Primary-bold text-lg tracking-wider text-white">
                 ISE helps you search for the product according to the image you provide most accurately</p>
             <a href="{% url 'register' %}" class="w-[100px] h-[40px] font-Primary-bold font-medium text-lg flex justify-center
           items-center border-2 bg-[#DEE1E6] p-[9px] rounded-3xl text-[#51459E]
@@ -42,35 +43,34 @@
             {% for error in form.password.errors %}
                 <p>* {{ error }}</p>
             {% endfor %}
+
             <!-- Form -->
-            <form action="{% url 'login' %}" method="post" class="form-group flex flex-col w-full px-40 mt-10 mb-4">
+            <form action="{% url 'login' %}" method="post" class="form-group flex flex-col w-full px-40 mt-6 mb-4">
                 {% csrf_token %}
                 <!-- The email field -->
-                <label for="email" class="email-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+                <label for="email" class="email-label w-full p-2 mb-2 overflow-hidden">
                     {{ form.email }}
                 </label>
                 <!-- End the email field -->
 
                 <!-- The password field -->
-                <label for="password" class="password-label w-full p-2 mb-6 bg-[#D9D9D9] rounded-2xl overflow-hidden">
+                <label for="password" class="password-label w-full p-2 mb-2 overflow-hidden">
                     {{ form.password }}
                 </label>
                 <!-- End the password field -->
-                <button type="submit" id="loginButton" class="w-[150px] h-[40px] font-Primary-bold font-medium text-2xl flex justify-center
-              items-center border-2 bg-[#51459E] p-[9px] rounded-3xl text-[#DEE1E6]
+
+                <!-- Button submit form -->
+                <button type="submit" id="loginButton" class="w-[150px] font-Primary-bold font-medium text-xl flex justify-center
+              items-center border-2 bg-[#51459E] p-2 rounded-3xl text-[#DEE1E6] ml-2 mt-1
               hover:bg-[#DEE1E6] hover:text-[#51459E] hover:border-[#51459E]
               transition-all duration-500 ease-in-out uppercase">
                     Logn In
                 </button>
+                <!-- End the button submit form -->
 
             </form>
-            <!-- Form -->
-
-            <!-- Button submit form -->
-            <!-- End the button submit form -->
-
+            <!-- End the form login -->
         </div>
-        <!-- End the form login -->
 
     </div>
     <!-- End the container -->

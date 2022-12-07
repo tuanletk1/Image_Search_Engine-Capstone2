@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <title>Image Search Engine</title>
 </head>
 
@@ -20,14 +21,14 @@
         <header class="header border-b-4 border-[#F6F6F6]">
 
             <!-- Navbar -->
-            <nav class="navbar flex justify-between items-center w-full pl-24 pr-10">
+            <nav class="navbar flex justify-between items-center w-full pl-16 pr-10 py-1">
 
                 <!-- The logo of page -->
-                <h1 class="logo py-3">
+                <h1 class="logo">
                     <a href="{% url 'homepage' %}" class="w-full h-full">
                         {#              <img src="../../static/assets/images/Logo_ISE_fullHD.svg" alt="The logo of Image Search Engine" class="w-full h-full">#}
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/1200px-Google_Chrome_icon_%28February_2022%29.svg.png"
-                             alt="The logo of Image Search Engine " class="w-20 h-20">
+                        <img src="../../static/assets/images/Logo_ISE_fullHD.png"
+                             alt="The logo of Image Search Engine">
                     </a>
                 </h1>
                 <!-- End the logo of page -->
@@ -44,12 +45,14 @@
                             <span class="font-Primary-bold text-[#25396F] text-xl truncate">{{ request.session.auth.email }}</span>
                             <div
                                     class="w-full right-0 translate-x-full group-hover:translate-x-0 rounded-l-xl py-2 px-4 bg-slate-100 z-10 absolute border-2 border-[#51459E] border-dashed transition-all duration-500 ease-in-out">
-                                <button onclick="{console.log('logout')}"
-                                        class="w-full flex justify-between items-center font-Primary-bold text-lg pl-2 text-blue-700 uppercase">
-                                    Sign
-                                    out
-                                    <i class="fa-solid fa-right-from-bracket border-2 border-blue-500 p-2 text-blue-500"></i>
-                                </button>
+                                <a href="{% url 'logout' %}">
+                                    <button onclick="{console.log('logout')}"
+                                            class="w-full flex justify-between items-center font-Primary-bold text-lg pl-2 text-blue-700 uppercase">
+                                        Sign
+                                        out
+                                        <i class="fa-solid fa-right-from-bracket border-2 border-blue-500 p-2 text-blue-500"></i>
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     {% endif %}

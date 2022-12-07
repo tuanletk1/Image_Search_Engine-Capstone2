@@ -9,16 +9,15 @@ from datetime import date, timedelta
 
 class Tiki:
   category_list = {
-    '918': 'ao-so-mi-nam',
-    '925': 'ao-vest-ao-khoac-nam',
-    '27604': 'giay-the-thao-nu',
-    '27572': 'giay-the-thao-nam',
-    '959': 'vi-nam',
-    '1778': 'dong-ho-nam',
-    '4558': 'tui-deo-cheo-tui-deo-vai-nu',
-    '5337': 'tui-xach-cong-so-nam',
-    '8595': 'o-to',
-    '8597': 'xe-may',
+    '49458': 'ao-khoac-gio',
+    '49602': 'tui-xach-vua-va-nho',
+    '49620': 'giay-the-thao-nam-co-thap',
+    '8513': 'dong-ho-the-thao-nam',
+    '8351': 'balo-nam',
+    '29010': 'laptop-truyen-thong',
+    '49512': 'ao-hoodies-nam-vai-ni',
+    '49650': 'tui-bao-tu-tui-deo-bung',
+    '8341': 'non-nam'
   }
   cookies = {
     '_trackity': 'c638e641-f74d-7230-982c-9b73edb27bcf',
@@ -87,7 +86,8 @@ class Tiki:
           if response.json().get('data') is None:
             break
           if i == 1:
-            with open('./static/crawl/tiki/log/' + str(date.today() + timedelta(days=1)) + "_" + key + ".log", "a+") as file:
+            with open('./static/crawl/tiki/log/' + str(date.today() + timedelta(days=1)) + "_" + key + ".log",
+                      "a+") as file:
               file.write(f"{response.json().get('data')[0]['id']}\n")
           for record in response.json().get('data'):
             exists = False
@@ -108,14 +108,21 @@ class Tiki:
             price = str(record.get('price'))
             image = record.get('thumbnail_url')
             link = 'https://tiki.vn/' + record.get('url_path')
+            rating = quantity_sold = discount = 0
+            if record.get('rating_average'):
+              rating = str(record.get('rating_average'))
+            if record.get('quantity_sold'):
+              quantity_sold = str(record.get('quantity_sold')['value'])
+            if record.get('original_price') > 0:
+              discount = str(100 - int(record.get('price') / record.get('original_price') * 100))
             img_data = requests.get(image).content
             with open('./static/images_data/tiki/tk_category_' + str(count) + '/tk_' + str(record.get('id')) + '.jpg',
                       'wb') as handler:
               handler.write(img_data)
-            file = open('./static/crawl/tiki/sql/' + str(date.today() + timedelta(days=1)) + "_" + key + ".sql", "a+", encoding='utf-8')
+            file = open('./static/crawl/tiki/sql/' + str(date.today() + timedelta(days=1)) + "_" + key + ".sql", "a+",
+                        encoding='utf-8')
             file.write(
-              "INSERT INTO products VALUES(null," + f"'tk_{product_id}'" + ", " + f"\"{name}\"" + ", " + f"'{price}'" + ", " + f"'{link}'" + ", " + f"'{image}'" + ", " + f"{ctime}" + ", 'Tiki'" + ");\n")
+              "INSERT INTO products VALUES(null," + f"'tk_{product_id}'" + ", " + f"\"{name}\"" + ", " + f"'{price}'" + ", " + f"'{link}'" + ", " + f"'{image}'" + ", " + f"{ctime}" + ", 'Tiki'" + ", " + f"{discount}" + ", " + f"{quantity_sold}" + ", " + f"{rating}" + ");\n")
             file.close()
         sleep(randrange(3, 11))
       count = count + 1
-

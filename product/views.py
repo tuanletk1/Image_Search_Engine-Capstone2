@@ -20,7 +20,7 @@ from .feature_extract import FeatureExtract
 # Create your views here.
 def crawl_shopee(request):
   shopee_crawl = Shopee()
-  shopee_crawl.crawl()
+  shopee_crawl.get_images()
   return HttpResponseRedirect(reverse('homepage'))
 
 

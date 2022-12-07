@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <title>Image Search Engine</title>
 </head>
 
@@ -20,13 +21,13 @@
         <header class="header border-b-4 border-[#F6F6F6]">
 
             <!-- Navbar -->
-            <nav class="navbar flex justify-between items-center w-full pl-24 pr-10">
+            <nav class="navbar flex justify-between items-center w-full pl-16 pr-10 py-1">
 
                 <!-- The logo of page -->
-                <h1 class="logo py-3">
+                <h1 class="logo">
                     <a href="{% url 'homepage' %}">
-                        <img src="../../static/assets/images/Logo_ISE_fullHD.svg"
-                             alt="The logo of Image Search Engine ">
+                        <img src="../../static/assets/images/Logo_ISE_fullHD.png"
+                             alt="The logo of Image Search Engine">
                     </a>
                 </h1>
                 <!-- End the logo of page -->
@@ -43,12 +44,14 @@
                             <span class="font-Primary-bold text-[#25396F] text-xl truncate">{{ request.session.auth.email }}</span>
                             <div
                                     class="w-full right-0 translate-x-full group-hover:translate-x-0 rounded-l-xl py-2 px-4 bg-slate-100 z-10 absolute border-2 border-[#51459E] border-dashed transition-all duration-500 ease-in-out">
-                                <button onclick="{console.log('logout')}"
-                                        class="w-full flex justify-between items-center font-Primary-bold text-lg pl-2 text-blue-700 uppercase">
-                                    Sign
-                                    out
-                                    <i class="fa-solid fa-right-from-bracket border-2 border-blue-500 p-2 text-blue-500"></i>
-                                </button>
+                                <a href="{% url 'logout' %}">
+                                    <button onclick="{console.log('logout')}"
+                                            class="w-full flex justify-between items-center font-Primary-bold text-lg pl-2 text-blue-700 uppercase">
+                                        Sign
+                                        out
+                                        <i class="fa-solid fa-right-from-bracket border-2 border-blue-500 p-2 text-blue-500"></i>
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     {% endif %}
@@ -62,7 +65,7 @@
         <!-- End the header -->
 
         <!-- Page content -->
-        <div class="content flex my-6">
+        <div class="content flex my-4">
 
             <!-- Side menu section -->
             <div class="side-menu flex flex-col w-1/4 h-full justify-center items-center border-r-2 border-[#F6F6F6]">
@@ -150,69 +153,70 @@
                                      id="product-{{ product.id }}">
 
                                     <!-- Product image card -->
-                                    <div
-                                            class="group w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 relative">
-                                        <div>
-                                            <img src="{{ product.images_link }}" class="w-full">
-                                            <button id="link-{{ product.id }}"
-                                                    class="link-btn z-40 w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
-                                                <i
-                                                        class="fa-solid fa-heart text-3xl text-gray-400 hover:text-red-600 transition-all duration-500 ease-in-out"></i>
-                                            </button>
-                                        </div>
+                                    <a href="{% url 'to_product' id=product.id %}" target="_blank">
                                         <div
-                                                class="overlay-content px-2 pt-12 align-middle items-center bg-slate-100 absolute w-full h-[330px] top-0 z-10 duration-700 ease-in-out translate-x-full group-hover:translate-x-0">
+                                                class="group w-[250px] flex flex-col justify-center items-center mb-3 border-b border-gray-400 relative">
+                                            <div>
+                                                <img src="{{ product.images_link }}" class="w-full">
+                                                <button id="link-{{ product.id }}"
+                                                        class="link-btn z-40 w-[45px] h-[45px] flex justify-center items-center p-5 bg-white rounded-tr-xl border border-[#51459E] absolute top-0 right-0">
+                                                    <i
+                                                            class="fa-solid fa-heart text-3xl text-gray-400 hover:text-red-600 transition-all duration-500 ease-in-out"></i>
+                                                </button>
+                                            </div>
+                                            <div
+                                                    class="overlay-content px-2 pt-12 align-middle items-center bg-slate-100 absolute w-full h-[330px] top-0 z-10 duration-700 ease-in-out translate-x-full group-hover:translate-x-0">
                       <span
                               class="absolute text-base uppercase w-[190px] h-[42px] font-Primary-bold py-2 text-red-500 ml-2 top-0 left-0 border-b-2 border-red-500 border-dashed">More
                         information</span>
-                                            <p class="line-clamp-5 mb-2 text-base font-Primary-bold text-[#51459E] w-full">{{ product.product_name }}</p>
-                                            <p
-                                                    class="flex w-full pt-2 justify-between font-Primary-bold text-base text-red-500 border-t-2 border-red-500 border-dashed ">
-                                                Likes:
-                                                <span class="text-[#51459E]">3450 <i
-                                                        class="fa-regular fa-thumbs-up text-blue-500"></i></span>
-                                            </p>
-                                            <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
-                                                Discount: <span
-                                                    class="text-[#51459E]">20
+                                                <p class="line-clamp-5 mb-2 text-base font-Primary-bold text-[#51459E] w-full">{{ product.product_name }}</p>
+                                                <p
+                                                        class="flex w-full pt-2 justify-between font-Primary-bold text-base text-red-500 border-t-2 border-red-500 border-dashed ">
+                                                    Price:
+                                                    <span class="text-[#51459E]">{{ product.price }}đ </span>
+                                                </p>
+                                                <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
+                                                    Discount: <span
+                                                        class="text-[#51459E]">{{ product.discount }}
                           <i class="fa-solid fa-percent"></i></span>
-                                            </p>
-                                            <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
-                                                Quantity Sold:
-                                                <span class="text-[#51459E]">255</span>
-                                            </p>
-                                            <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
-                                                Review Count:
-                                                <span class="text-[#51459E]">4/5 <i
-                                                        class="fa-solid fa-star text-yellow-500"></i></span>
-                                            </p>
-                                        </div>
-                                        <div
-                                                class="w-[250px] flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
+                                                </p>
+                                                <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
+                                                    Quantity Sold:
+                                                    <span class="text-[#51459E]">{{ product.quantity_sold }}</span>
+                                                </p>
+                                                <p class="flex w-full justify-between font-Primary-bold text-base text-red-500">
+                                                    Rating:
+                                                    <span class="text-[#51459E]">{{ product.rating }}/5 <i
+                                                            class="fa-solid fa-star text-yellow-500"></i></span>
+                                                </p>
+                                            </div>
+                                            <div
+                                                    class="w-[250px] flex justify-center items-center bg-white border border-[#51459E] absolute bottom-0">
                       <span
                               class="w-full h-full px-2 block text-center truncate text-xl font-Primary-bold text-red-600 transition-all duration-500 ease-in-out cursor-pointer">Shopee.vn</span>
+                                            </div>
+
                                         </div>
+                                        <!-- End the product image card -->
 
-                                    </div>
-                                    <!-- End the product image card -->
+                                        <!-- Product card detail -->
+                                        <div class="product-card-detail flex w-[250px] justify-between px-2 mb-2">
 
-                                    <!-- Product card detail -->
-                                    <div class="product-card-detail flex w-[250px] justify-between px-2 mb-2">
-
-                                        <!-- Product card infor -->
-                                        <div class="product-card-infor w-10/12 flex flex-col">
-                                            <a href="{% url 'to_product' id=product.id %}" target="_blank">
+                                            <!-- Product card infor -->
+                                            <div class="product-card-infor w-10/12 flex flex-col">
+                                                <a href="{% url 'to_product' id=product.id %}" target="_blank">
                         <span
                                 class="product-card-name w-full h-full block font-Primary-medium text-lg truncate text-[#51459E]">{{ product.product_name }}</span>
-                                            </a>
-                                            <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price }}đ</span>
-                                        </div>
-                                        <!-- End the product card infor -->
+                                                </a>
+                                                <span class="product-card-price font-Primary-bold text-red-500 text-lg">{{ product.price }}đ</span>
+                                            </div>
+                                            <!-- End the product card infor -->
 
-                                        <a href="{% url 'to_product' id=product.id %}" target="_blank">
-                                            <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
-                                        </a>
-                                    </div>
+                                            <a href="{% url 'to_product' id=product.id %}" target="_blank">
+                                                <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 hover:text-blue-400 text-3xl"></i>
+                                            </a>
+                                        </div>
+                                    </a>
                                     <!-- End the product card detail -->
 
                                 </div>
